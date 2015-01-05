@@ -1,0 +1,123 @@
+\documentclass{beamer}
+\usepackage[utf8x]{inputenc}
+\usepackage[ngerman]{babel}
+\usetheme{Montpellier}  %% Themenwahl
+\setbeamercolor{normal text}{fg=black,bg=white}
+
+
+\AtBeginSection{\frame{\sectionpage}}
+\AtBeginSubsection{\frame{\subsectionpage}}
+\newtranslation[to=ngerman]{Section}{Abschnitt}
+\newtranslation[to=ngerman]{Subsection}{Unterabschnitt}
+
+\defbeamertemplate{section page}{mine}[1][]{%
+  \begin{centering}
+    {\usebeamerfont{section name}\usebeamercolor[fg]{section name}#1}
+    \vskip1em\par
+    \begin{beamercolorbox}[sep=12pt,center]{part title}
+      \usebeamerfont{section title}\insertsection\par
+    \end{beamercolorbox}
+  \end{centering}
+}
+
+\defbeamertemplate{subsection page}{mine}[1][]{%
+  \begin{centering}
+    {\usebeamerfont{subsection name}\usebeamercolor[fg]{subsection name}#1}
+    \vskip1em\par
+    \begin{beamercolorbox}[sep=8pt,center,#1]{part title}
+      \usebeamerfont{subsection title}\insertsubsection\par
+    \end{beamercolorbox}
+  \end{centering}
+}
+
+\subtitle{Kolloqium zur Masterarbeit}
+\title[Zentralitätsmaße bei der NBPR]{Der Einfluss von Zentralitätsmaßen bei der netzwerkbasierten penalisierten Regression}
+\author{von: Moritz Hanke\\
+Betreuung: Prof. Dr. Iris Pigeot-Kübler \& Dr. Ronja Foraita }
+\institute{Matrikelnummer: 2404575\\
+Studiengang Medical Biometry/Biostatistics (M.Sc.)\\
+Fachbereich 3: Mathematik, Universität Bremen\\
+\includegraphics[width=0.5\textwidth,height=.19\textheight]{Logos}}
+\date{\today}
+ 
+\begin{document}
+\selectlanguage{ngerman}
+\maketitle
+%\frame{\tableofcontents[currentsection]}
+ 
+\section{Problemstellung und Idee}
+\begin{frame} %%Eine Folie
+  \frametitle{Das klassische lineare Regressionsmodell} %%Folientitel
+  \begin{itemize}
+  \item Responsevariable $Y$,  Kovariablen $X_1, \dots, X_p$ und Fehlerterm $\varepsilon$
+  \begin{align*}\label{Eq_klassisches_modell}
+  Y=\beta_0 + \beta_1 x_1 + \dots + \beta_p x_p + \varepsilon
+  \end{align*}
+  \pause \item $x_j,\dots, x_p$ als Realisierungen der Zufallsvariable oder den deterministischen Werten für $X_1, \dots, X_p$
+  \item es liegen $i=1, \dots, n$ Beobachtungen für die Responsevariable und die Kovariablen vor
+  \pause \item sei $\mathbf{Y} = (Y_1,\dots,Y_n)'
+  $, $
+  \boldsymbol{\beta} = (\beta_0,\beta_1,\dots,\beta_p
+  )'
+  $, $
+  \boldsymbol{\varepsilon} = (\varepsilon_1,\dots,\varepsilon_n
+  )'$ un Designmatrix $\mathbf{X}$:
+  \begin{align*}
+  \mathbf{Y}=\mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}
+  \end{align*}
+  \item zudem sei $\mathbb{E}(\boldsymbol{\varepsilon})=\mathbf{0}$, $\mathbb{V}\text{ar}(\varepsilon_i)=\sigma^2$ und $\mathbb{C}\text{ov}(\boldsymbol{\varepsilon})=\sigma^2\mathbf{I}$
+  \end{itemize}
+\end{frame}
+
+\begin{frame} %%Eine Folie
+  %\frametitle{Hochdimensionale bei der klassischen linearen Regression} %%Folientitel
+  \begin{itemize}
+  \item zur Schätzung von $\boldsymbol{\beta}$ als \glqq Klassiker" die \textit{Methode der kleinsten Quadrate} (OLS):
+  \begin{align*}
+  \boldsymbol{\hat{\beta}}^{OLS}=\left(\mathbf{X}'\mathbf{X}\right)^{-1}\mathbf{X}'\mathbf{Y}
+  \end{align*}
+  \pause \item der OLS-Schätzer ist unverzerrt, d.h. $\mathbb{E}(\boldsymbol{\hat{\beta}}^{OLS})=\boldsymbol{\beta}$, und hat die Varianzen $\mathbb{V}\text{ar}(\hat{\beta}_j^{OLS})=\sigma^2 (\mathbf{X}'\mathbf{X})^{-1}_{jj}=\frac{\sigma^2}{1-R^2_j}$ mit den (multiplen) Determinationskoeffizienten $R^2_j$
+  \pause \item für den mittleren quadratischen Fehler (MSE) als Genauigkeitsmaß der Schätzungen gilt deswegen:
+  \begin{align*}
+  \text{MSE}(\hat{\beta}_j^ {OLS})&=\mathbb{E}[(\hat{\beta}_j^ {OLS} - \beta_j)^2]\\
+  &=\mathbb{V}\text{ar}(\hat{\beta}_j^ {OLS})+(Bias(\hat{\beta}_j^ {OLS}))^2=\mathbb{V}\text{ar}(\hat{\beta}_j^ {OLS})
+  \end{align*}
+  \end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame} %%Eine Folie
+  \frametitle{Limitationen des OLS-Schätzers} 
+  ABER: 
+    \begin{itemize}
+    \pause \item für $n < p$ ist $\text{rang}(\mathbf{X}
+    )<p+1$ und deswegen $\left(\mathbf{X}'\mathbf{X}\right)^{-1}$ nicht invertierbar
+    \pause \item liegt Multikollinearität vor, d.h. $R^2_j$ ist nahe $1$, ist die Varianz der einzelnen $\hat{\beta}_j^{OLS}$ bzw. der entsprechende MSE hoch und damit der Schätzer ungenau
+    \pause \item bei perfekter Multikollinearität ist $\mathbf{X}$ singulär und $\left(\mathbf{X}'\mathbf{X}\right)^{-1}$ nicht invertierbar
+    \end{itemize}
+    \begin{itemize}
+    \pause \item diese Probleme sind bei hochdimensionalen Daten, d.h. $p \gg n$, gegeben
+    \item $p \gg n$-Probleme kommen in verschiedenen Bereichen wie bei der Analyse von sozialen Netzwerken, Finanzmärkten, astronomischen Phänomenen und in der Genetik vor
+    \end{itemize}
+    
+\end{frame}
+
+\begin{frame}
+	IDEE:
+	\begin{itemize}
+	\pause \item Annahme, dass $\boldsymbol{\beta}$ spärlich besetzt ist, d.h. $\beta_j=0$ für die meisten Regressionskoeffizienten gilt
+	\pause \item Beispiel Genetik: Expressionslevelmessungen von mehreren tausend Genen für wenige hundert Probanden für eine Krankheit; biologisch beteiligt an der Entstehung der Krankheit sind aber nur wenige Gene
+	\pause \item die Unverzerrtheit des OLS-Schätzers \glqq opfern" um eindeutige und stabile $\boldsymbol{\hat{\beta}}$ zu erhalten, die wie $\boldsymbol{\beta}$ spärlich besetzt sind
+	\end{itemize}
+\end{frame}
+
+
+\section{Penalisierte Regressionen}
+\begin{frame} %%Eine Folie
+  \item zu minimierende Residuenquadratsumme (RSS) wird 
+\end{frame}
+
+
+\end{document}
