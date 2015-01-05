@@ -4,11 +4,19 @@
 \usetheme{Montpellier}  %% Themenwahl
 \setbeamercolor{normal text}{fg=black,bg=white}
 
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber/\inserttotalframenumber
+}
+\setbeamercolor{footline}{fg=black}
 
 \AtBeginSection{\frame{\sectionpage}}
 \AtBeginSubsection{\frame{\subsectionpage}}
 \newtranslation[to=ngerman]{Section}{Abschnitt}
 \newtranslation[to=ngerman]{Subsection}{Unterabschnitt}
+
 
 \defbeamertemplate{section page}{mine}[1][]{%
   \begin{centering}
@@ -72,7 +80,7 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 \begin{frame} %%Eine Folie
   %\frametitle{Hochdimensionale bei der klassischen linearen Regression} %%Folientitel
   \begin{itemize}
-  \item zur Schätzung von $\boldsymbol{\beta}$ als \glqq Klassiker" die \textit{Methode der kleinsten Quadrate} (OLS):
+  \item zur Schätzung von $\boldsymbol{\beta}$ als \glqq Klassiker\grqq die \textit{Methode der kleinsten Quadrate} (OLS):
   \begin{align*}
   \boldsymbol{\hat{\beta}}^{OLS}=\left(\mathbf{X}'\mathbf{X}\right)^{-1}\mathbf{X}'\mathbf{Y}
   \end{align*}
@@ -109,14 +117,16 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 	\begin{itemize}
 	\pause \item Annahme, dass $\boldsymbol{\beta}$ spärlich besetzt ist, d.h. $\beta_j=0$ für die meisten Regressionskoeffizienten gilt
 	\pause \item Beispiel Genetik: Expressionslevelmessungen von mehreren tausend Genen für wenige hundert Probanden für eine Krankheit; biologisch beteiligt an der Entstehung der Krankheit sind aber nur wenige Gene
-	\pause \item die Unverzerrtheit des OLS-Schätzers \glqq opfern" um eindeutige und stabile $\boldsymbol{\hat{\beta}}$ zu erhalten, die wie $\boldsymbol{\beta}$ spärlich besetzt sind
+	\pause \item die Unverzerrtheit des OLS-Schätzers {\glqq}opfern\grqq um eindeutige und stabile $\boldsymbol{\hat{\beta}}$ zu erhalten, die wie $\boldsymbol{\beta}$ spärlich besetzt sind
 	\end{itemize}
 \end{frame}
 
 
 \section{Penalisierte Regressionen}
 \begin{frame} %%Eine Folie
-  \item zu minimierende Residuenquadratsumme (RSS) wird 
+  \begin{itemize}
+  \item zu minimierende Residuenquadratsumme (RSS) wird
+  \end{itemize} 
 \end{frame}
 
 
