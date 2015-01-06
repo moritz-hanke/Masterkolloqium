@@ -5,7 +5,26 @@
 \usepackage{apager}
 
 
+
 \usetheme{Montpellier}  %% Themenwahl
+
+\usepackage{natbib}
+\bibliographystyle{apalike}
+% make bibliography entries smaller
+\renewcommand\bibfont{\scriptsize}
+% If you have more than one page of references, you want to tell beamer
+% to put the continuation section label from the second slide onwards
+\setbeamertemplate{frametitle continuation}[from second]
+% Now get rid of all the colours
+\setbeamercolor*{bibliography entry title}{fg=black}
+\setbeamercolor*{bibliography entry author}{fg=black}
+\setbeamercolor*{bibliography entry location}{fg=black}
+\setbeamercolor*{bibliography entry note}{fg=black}
+% and kill the abominable icon
+\setbeamertemplate{bibliography item}{}
+
+
+
 \setbeamercolor{normal text}{fg=black,bg=white}
 
 \addtobeamertemplate{navigation symbols}{}{%
@@ -122,6 +141,7 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 	\pause \item Annahme, dass $\boldsymbol{\beta}$ spärlich besetzt ist, d.h. $\beta_j=0$ für die meisten Regressionskoeffizienten gilt
 	\pause \item Beispiel Genetik: Expressionslevelmessungen von mehreren tausend Genen für wenige hundert Probanden für eine Krankheit; biologisch beteiligt an der Entstehung der Krankheit sind aber nur wenige Gene
 	\pause \item die Unverzerrtheit des OLS-Schätzers {\glqq}opfern{\grqq} um eindeutige und stabile $\boldsymbol{\hat{\beta}}$ zu erhalten, die wie $\boldsymbol{\beta}$ spärlich besetzt sind und möglichst geringen MSE durch Varianzverminderung aufweisen
+	\pause \item zusätzlich zuvor bekannte Informationen wie Zusammenhang zwischen den Kovariablen (Netzwerk) bei der Schätzung berücksichtigen
 	\end{itemize}
 \end{frame}
 
@@ -183,20 +203,71 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 	\begin{align*}
 	\boldsymbol{\hat{\beta}}^{Enet}(\gamma_1, \gamma_2)=&\arg \displaystyle\min_{\beta} \left\lbrace \text{RSS}  + \gamma_1 \sum_{j=1}^{p}|\beta_j| + \gamma_2 \sum_{j=1}^{p}\beta_j^2 \right\rbrace\\ &\text{mit} \ \gamma_1,\gamma_2 \ge 0
 	\end{align*}
+	\begin{itemize}
+	\item Variablenselektion, stabile Schätzer und Gruppierungseffekt
+	\item Für die Differenz zweier Kovariablen
+	\begin{align*}
+	D_{\gamma_1,\gamma_2}(k,l)=\frac{1}{||\mathbf{Y}||_1}||\hat{\beta}_k^{Enet}(\gamma_1,\gamma_2)-\hat{\beta}_l^{Enet}(\gamma_1,\gamma_2)||_2
+	\end{align*}
+	gilt mit Korrelationskoeffizient $\rho$:
+	\begin{align*}
+	D_{\gamma_1,\gamma_2}(k,l) \leq \frac{1}{\gamma_2}\sqrt{2(1-\rho_{k,l})}
+	\end{align*}
+	\end{itemize}
 	\end{itemize}
 \end{frame}
 
 
-\begin{frame}{Bibliography}
-\bibliographystyle{apager}
-\bibliography{Masterarbeit}\sum_{i=1}^{n} (Y_i - \sum_{j=1}^{p} x_{ij} \beta_j)^2
-\item \cite{Bonacich1987EigenvektorCent}
+\begin{frame}
+	ABER:
+	\begin{itemize}
+	\item Enet liefert nicht das wahre Modell, wenn $\mathbf{X}$ die sogenannte Irreprestable-Condition nicht erfüllt (vgl. \cite{jia_2008Enet_Consistency})
+	\item a priori vorliegende Informationen über Kovariablen werden nicht genutzt
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Penalisierungen auf Grundlage von Netzwerkinformationen}
+	\begin{itemize}
+	\item  Beispiel Genetik: Informationen über Zusammenhänge zwischen einzelnen Genen oder Genprodukten bzw. zwischen Genen und Proteinen
+	\item darstellbar mittels Graphentheorie durch Knoten und Kanten sowie Kantengewichten bzw. -richtungen
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{../Text/hsa05212}
+\caption{}
+\label{fig:hsa05212}
+\end{figure}
 \end{frame}
 
 
-%\begin{frame}[t,allowframebreaks] 
-%	\frametitle{References}
-%	\bibliography{\jobname}
+
+\begin{frame}
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{./PancreasCancer}
+\caption{}
+\label{fig:pancreas}
+\end{figure}
+\end{frame}
+
+
+
+
+
+
+%\begin{frame}{Bibliography}
+%\bibliographystyle{apager}
+%\bibliography{Masterarbeit}
+%\end{frame}
+
+
+%\begin{frame}[t,allowframebreaks]
+%\frametitle{References}
+%\bibliography{\jobname}
 %\end{frame}
 
 
