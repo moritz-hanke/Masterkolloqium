@@ -92,7 +92,7 @@ Fachbereich 3: Mathematik, Universität Bremen\\
   )'
   $, $
   \boldsymbol{\varepsilon} = (\varepsilon_1,\dots,\varepsilon_n
-  )'$ un Designmatrix $\mathbf{X}$:
+  )'$ und Designmatrix $\mathbf{X}$:
   \begin{align*}
   \mathbf{Y}=\mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}
   \end{align*}
@@ -163,7 +163,7 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 \begin{frame}
 \frametitle{\glqq Klassische{\grqq} Penalisierungen ohne Vorabinformationen}
 	\begin{itemize}
-	\item \textit{Ridge-Regression} \cite{hoerl_ridge_1970}:
+	\item \textit{Ridge-Regression} von \cite{hoerl_ridge_1970}:
 	\begin{align*}
 	\boldsymbol{\hat{\beta}}^{Ridge}(\gamma)=\arg \displaystyle\min_{\boldsymbol{\beta}} \left\lbrace \text{RSS}  + \gamma \sum_{j=1}^{p}\beta_j^2 \right\rbrace \ \text{mit} \ \gamma \ge 0
 	\end{align*}
@@ -182,7 +182,7 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 
 \begin{frame}
 	\begin{itemize}
-	\item \textit{Lasso-Regression} \cite{tibshirani96regression}:
+	\item \textit{Lasso-Regression} von \cite{tibshirani96regression}:
 	\begin{align*}
 	\boldsymbol{\hat{\beta}}^{Lasso}(\gamma)=\arg \displaystyle\min_{\boldsymbol{\beta}} \left\lbrace \text{RSS}  + \gamma \sum_{j=1}^{p}|\beta_j| \right\rbrace \ \text{mit} \ \gamma \ge 0
 	\end{align*}
@@ -199,7 +199,7 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 
 \begin{frame}
 	\begin{itemize}
-	\item \textit{Elastic-Net-Regression} \cite{zou_regularization_2005}:
+	\item \textit{Elastic-Net-Regression} von \cite{zou_regularization_2005}:
 	\begin{align*}
 	\boldsymbol{\hat{\beta}}^{Enet}(\gamma_1, \gamma_2)=&\arg \displaystyle\min_{\beta} \left\lbrace \text{RSS}  + \gamma_1 \sum_{j=1}^{p}|\beta_j| + \gamma_2 \sum_{j=1}^{p}\beta_j^2 \right\rbrace\\ &\text{mit} \ \gamma_1,\gamma_2 \ge 0
 	\end{align*}
@@ -229,7 +229,7 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 \begin{frame}
 \frametitle{Penalisierungen auf Grundlage von Netzwerkinformationen}
 	\begin{itemize}
-	\item  Beispiel Genetik: Informationen über Zusammenhänge zwischen einzelnen Genen oder Genprodukten bzw. zwischen Genen und Proteinen
+	\item  Beispiel Genetik: Informationen über Zusammenhänge zwischen einzelnen Genen oder Genprodukten bzw. zwischen Genen und Proteinen vorhanden
 	\item darstellbar mittels Graphentheorie durch Knoten und Kanten sowie Kantengewichten bzw. -richtungen
 	\end{itemize}
 \end{frame}
@@ -238,31 +238,41 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 \begin{figure}
 \centering
 \includegraphics[width=\linewidth]{../Text/hsa05212}
-\caption{}
+%\caption{}
 \label{fig:hsa05212}
 \end{figure}
-\end{frame}
-
+\end{frame}\caption{}
 
 
 \begin{frame}
 \begin{figure}
 \centering
 \includegraphics[width=\linewidth]{./PancreasCancer}
-\caption{}
+%\caption{}
 \label{fig:pancreas}
 \end{figure}
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
+	\item ursprüngliche graphenbasierte Regression von \cite{li_network-constrained_2008} mit zu minimierendem Term:
+	\begin{align*}
+	\text{RSS}
+	+\gamma_1||\boldsymbol{\beta}||_1
+	+\gamma_2 \left( \sum_{\{u,v\}} \left(\frac{\beta_u}{\sqrt{d(u)}}-\frac{\beta_v}{\sqrt{d(v)}}\right)^2 w(\{u,v\})\right)
+	\end{align*}
+	\item 
+	\end{itemize}
 \end{frame}
 
 
 
 
 
-
-%\begin{frame}{Bibliography}
-%\bibliographystyle{apager}
-%\bibliography{Masterarbeit}
-%\end{frame}
+\begin{frame}{Bibliography}
+\bibliographystyle{apager}
+\bibliography{Masterarbeit}
+\end{frame}
 
 
 %\begin{frame}[t,allowframebreaks]
