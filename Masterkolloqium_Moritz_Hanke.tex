@@ -1,6 +1,10 @@
 \documentclass{beamer}
 \usepackage[utf8x]{inputenc}
 \usepackage[ngerman]{babel}
+
+\usepackage{apager}
+
+
 \usetheme{Montpellier}  %% Themenwahl
 \setbeamercolor{normal text}{fg=black,bg=white}
 
@@ -117,17 +121,85 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 	\begin{itemize}
 	\pause \item Annahme, dass $\boldsymbol{\beta}$ spärlich besetzt ist, d.h. $\beta_j=0$ für die meisten Regressionskoeffizienten gilt
 	\pause \item Beispiel Genetik: Expressionslevelmessungen von mehreren tausend Genen für wenige hundert Probanden für eine Krankheit; biologisch beteiligt an der Entstehung der Krankheit sind aber nur wenige Gene
-	\pause \item die Unverzerrtheit des OLS-Schätzers {\glqq}opfern\grqq um eindeutige und stabile $\boldsymbol{\hat{\beta}}$ zu erhalten, die wie $\boldsymbol{\beta}$ spärlich besetzt sind
+	\pause \item die Unverzerrtheit des OLS-Schätzers {\glqq}opfern{\grqq} um eindeutige und stabile $\boldsymbol{\hat{\beta}}$ zu erhalten, die wie $\boldsymbol{\beta}$ spärlich besetzt sind und möglichst geringen MSE durch Varianzverminderung aufweisen
 	\end{itemize}
 \end{frame}
 
 
 \section{Penalisierte Regressionen}
 \begin{frame} %%Eine Folie
+\frametitle{Allgemeine Darstellung}
   \begin{itemize}
-  \item zu minimierende Residuenquadratsumme (RSS) wird
+  \item die bzgl. $\boldsymbol{\beta}$ zu minimierende Zielfunktion $(\mathbf{Y}-\mathbf{X}\boldsymbol{\beta})'(\mathbf{Y}-\mathbf{X}\boldsymbol{\beta})$ wird um eine Nebenbedingung für die zu schätzenden Regressionskoeffizienten erweitert 
+  \item Darstellung in Lagrange-Form als Summe aus Residuenquadratsumme (RSS) und Strafterm $P(\boldsymbol{\beta}, \boldsymbol{\gamma})$:
+  \begin{align*}
+  \text{PRSS}(\boldsymbol{\beta}, \boldsymbol{\gamma})=\text{RSS}(\boldsymbol{\beta})+P(\boldsymbol{\beta}, \boldsymbol{\gamma})
+  \end{align*}
+  \item im Allgemeinen wird gefordert: $\frac{1}{n}\sum_{i}^{n}y_i =0$ sowie $\frac{1}{n}\sum_{i=1}^{n}x_{ij}=0$ und $\frac{1}{n}\sum_{i=1}^{n}x_{ij}^2=1$
   \end{itemize} 
 \end{frame}
+
+
+\begin{frame}
+\frametitle{\glqq Klassische{\grqq} Penalisierungen ohne Vorabinformationen}
+	\begin{itemize}
+	\item \textit{Ridge-Regression} \cite{hoerl_ridge_1970}:
+	\begin{align*}
+	\boldsymbol{\hat{\beta}}^{Ridge}(\gamma)=\arg \displaystyle\min_{\boldsymbol{\beta}} \left\lbrace \text{RSS}  + \gamma \sum_{j=1}^{p}\beta_j^2 \right\rbrace \ \text{mit} \ \gamma \ge 0
+	\end{align*}
+	\begin{itemize}
+	\item analytische Lösung: $\boldsymbol{\hat{\beta}}^{Ridge} = (\mathbf{X}'\mathbf{X} + \gamma \mathbf{I})^{-1}\mathbf{X}'\mathbf{Y}$
+	\item es existiert eine eindeutige Lösung
+	\item Stabilisierung der Schätzer\\
+	ABER:\\ 
+	\item alle $\hat{\beta}_j \neq 0$
+	
+	\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+	\begin{itemize}
+	\item \textit{Lasso-Regression} \cite{tibshirani96regression}:
+	\begin{align*}
+	\boldsymbol{\hat{\beta}}^{Lasso}(\gamma)=\arg \displaystyle\min_{\boldsymbol{\beta}} \left\lbrace \text{RSS}  + \gamma \sum_{j=1}^{p}|\beta_j| \right\rbrace \ \text{mit} \ \gamma \ge 0
+	\end{align*}
+	\begin{itemize}
+	\item führt Variablenselektion durch, d.h. $\hat{\beta}_j = 0$ möglich
+	\item keine analytische Lösung; Lösungsalgorithmus \textit{LARS} \cite{Efron04leastangle} effektiv\\
+	ABER:\\
+	\item bei hoher Multikollinearität keine eindeutige Lösung; zufällige Auswahl von hoch miteinander korrelierenden Kovariablen
+	\item maximal für $n$ Kovariablen $\hat{\beta}_j \neq 0$ 
+	\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+	\begin{itemize}
+	\item \textit{Elastic-Net-Regression} \cite{zou_regularization_2005}:
+	\begin{align*}
+	\boldsymbol{\hat{\beta}}^{Enet}(\gamma_1, \gamma_2)=&\arg \displaystyle\min_{\beta} \left\lbrace \text{RSS}  + \gamma_1 \sum_{j=1}^{p}|\beta_j| + \gamma_2 \sum_{j=1}^{p}\beta_j^2 \right\rbrace\\ &\text{mit} \ \gamma_1,\gamma_2 \ge 0
+	\end{align*}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Bibliography}
+\bibliographystyle{apager}
+\bibliography{Masterarbeit}\sum_{i=1}^{n} (Y_i - \sum_{j=1}^{p} x_{ij} \beta_j)^2
+\item \cite{Bonacich1987EigenvektorCent}
+\end{frame}
+
+
+%\begin{frame}[t,allowframebreaks] 
+%	\frametitle{References}
+%	\bibliography{\jobname}
+%\end{frame}
+
+
 
 
 \end{document}
