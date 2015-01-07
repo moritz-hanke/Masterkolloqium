@@ -291,10 +291,10 @@ sei $\mathbf{A}\mathbf{e}=\lambda_{max} \mathbf{e}$ ein Eigenwertproblem und $\l
 	\item ursprüngliche graphenbasierte Regression von \cite{li_network-constrained_2008} mit zu minimierendem Term:
 	\begin{align*}
 	\text{RSS}
-	+\gamma_1||\boldsymbol{\beta}||_1
+	+\gamma_1\sum_{j=1}^{p}|\beta_j|
 	+\gamma_2 \left( \sum_{\{u,v\}} \left(\frac{\beta_u}{\sqrt{d(u)}}-\frac{\beta_v}{\sqrt{d(v)}}\right)^2 w(\{u,v\})\right)
 	\end{align*}
-	\item $\{u,v\}$ als ungerichtete Kante zwischen Knoten (Kovariable) $u$ und $v$ (a priori Information; Unterschied zu Enet)
+	\item $\{u,v\}$ als ungerichtete Kante zwischen Knoten (Kovariablen) $u$ und $v$ (a priori Information; Unterschied zu Enet)
 	\item $d(u)$ als Knotengrad von $u$
 	\item $w(\{u,v\})$ als Kantengewichtung zwischen $u$ und $v$
 	\item zweiter Strafterm bewirkt Glättung
@@ -447,12 +447,52 @@ sei $\mathbf{A}\mathbf{e}=\lambda_{max} \mathbf{e}$ ein Eigenwertproblem und $\l
 	\item durchschnittliche Genauigkeit der Schätzungen für $\boldsymbol{\beta} = 2$, $\boldsymbol{\beta} = 1$ bzw $\boldsymbol{\beta} = 0$
 	\begin{itemize}
 	\item alle Methoden unterschätzen $\boldsymbol{\beta}=2$, wobei Enet mit $1.740$ den schlechtesten und $\text{NBPR}_1$ mit $1.919$ den besten Wert liefert
-	\item für $\boldsymbol{\beta} = 1$ trifft Enet im Durchschnitt fast exakt ($1.010$) den wahren Wert; die NBPR-Versionen liegen zwischen $1.239$ ($\text{NBPR}_{B,R}$) und $1.419$ ($\text{NBPR}_1$)  
+	\item für $\boldsymbol{\beta} = 1$ trifft Enet im Durchschnitt fast ($1.010$) den wahren Wert; die NBPR-Versionen liegen zwischen $1.239$ ($\text{NBPR}_{B,R}$) und $1.419$ ($\text{NBPR}_1$)  
 	\item für $\boldsymbol{\beta}\neq 0$ liefert die Enet in Fällen wo $\hat{\beta}_j \neq 0$ gesetzt wird mit $\approx0.5$ die besten Ergebnisse, alle NBPR-Versionen liegen bei $\approx 1$
 	\end{itemize}
 	\end{itemize}
 \end{frame}
 
+
+\section{Fazit und Ausblick}
+\begin{frame}
+
+\end{frame}
+
+
+\begin{frame}
+Vielen Dank für die Aufmerksamkeit
+\end{frame}
+
+
+\section{Zusätzliches Material}
+\begin{frame}
+	Kovariablenauswahl Enet vs. $\text{NBPR}_{B,R}$ für $\boldsymbol{\beta}$
+	\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{./BR_allBETA}
+	%\caption{}
+	\label{fig:a}
+	\end{figure}
+\end{frame}
+\begin{frame}
+	Kovariablenauswahl Enet vs. $\text{NBPR}_{B,R}$ für $\boldsymbol{\beta} \neq 0$
+	\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{./BR_BETA_not0}
+	%\caption{}
+	\label{fig:b}
+	\end{figure}
+\end{frame}
+\begin{frame}
+	Kovariablenauswahl Enet vs. $\text{NBPR}_{B,R}$ für $\boldsymbol{\beta} = 0$
+	\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{./BR_BETA_0}
+	%\caption{}
+	\label{fig:c}
+	\end{figure}
+\end{frame}
 
 \begin{frame}
 	\frametitle{Verwendete Software (jeweils aktuelle Version zum Stand 17.12.2014)}
