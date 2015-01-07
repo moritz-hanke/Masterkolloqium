@@ -84,41 +84,19 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 \begin{frame} %%Eine Folie
   \frametitle{Das klassische lineare Regressionsmodell} %%Folientitel
   \begin{itemize}
-  \item Responsevariable $Y$,  Kovariablen $X_1, \dots, X_p$ und Fehlerterm $\varepsilon$
+  \item Responsevariable $Y$,  Kovariablen $X_1, \dots, X_p$ und Fehlerterm $\varepsilon \sim N(0, \sigma^2)$
   \begin{align*}\label{Eq_klassisches_modell}
   Y=\beta_0 + \beta_1 x_1 + \dots + \beta_p x_p + \varepsilon
   \end{align*}
-  \pause \item $x_j,\dots, x_p$ als Realisierungen der Zufallsvariable oder den deterministischen Werten für $X_1, \dots, X_p$
-  \item es liegen $i=1, \dots, n$ Beobachtungen für die Responsevariable und die Kovariablen vor
-  \pause \item sei $\mathbf{Y} = (Y_1,\dots,Y_n)'
-  $, $
-  \boldsymbol{\beta} = (\beta_0,\beta_1,\dots,\beta_p
-  )'
-  $, $
-  \boldsymbol{\varepsilon} = (\varepsilon_1,\dots,\varepsilon_n
-  )'$ und Designmatrix $\mathbf{X}$:
-  \begin{align*}
-  \mathbf{Y}=\mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}
-  \end{align*}
-  \item zudem sei $\mathbb{E}(\boldsymbol{\varepsilon})=\mathbf{0}$, $\mathbb{V}\text{ar}(\varepsilon_i)=\sigma^2$ und $\mathbb{C}\text{ov}(\boldsymbol{\varepsilon})=\sigma^2\mathbf{I}$
-  \end{itemize}
-\end{frame}
-
-\begin{frame} %%Eine Folie
-  %\frametitle{Hochdimensionale bei der klassischen linearen Regression} %%Folientitel
-  \begin{itemize}
-  \item zur Schätzung von $\boldsymbol{\beta}$ als \glqq Klassiker\grqq die \textit{Methode der kleinsten Quadrate} (OLS):
+  \item Schätzung von $\boldsymbol{\beta}$ \glqq klassisch\grqq mit \textit{Methode der kleinsten Quadrate} (OLS):
   \begin{align*}
   \boldsymbol{\hat{\beta}}^{OLS}=\left(\mathbf{X}'\mathbf{X}\right)^{-1}\mathbf{X}'\mathbf{Y}
   \end{align*}
-  \pause \item der OLS-Schätzer ist unverzerrt, d.h. $\mathbb{E}(\boldsymbol{\hat{\beta}}^{OLS})=\boldsymbol{\beta}$, und hat die Varianzen $\mathbb{V}\text{ar}(\hat{\beta}_j^{OLS})=\sigma^2 (\mathbf{X}'\mathbf{X})^{-1}_{jj}=\frac{\sigma^2}{1-R^2_j}$ mit den (multiplen) Determinationskoeffizienten $R^2_j$
-  \pause \item für den mittleren quadratischen Fehler (MSE) als Genauigkeitsmaß der Schätzungen gilt deswegen:
-  \begin{align*}
-  \text{MSE}(\hat{\beta}_j^ {OLS})&=\mathbb{E}[(\hat{\beta}_j^ {OLS} - \beta_j)^2]\\
-  &=\mathbb{V}\text{ar}(\hat{\beta}_j^ {OLS})+(Bias(\hat{\beta}_j^ {OLS}))^2=\mathbb{V}\text{ar}(\hat{\beta}_j^ {OLS})
-  \end{align*}
+  \item der OLS-Schätzer ist unverzerrt, d.h. $\mathbb{E}(\boldsymbol{\hat{\beta}}^{OLS})=\boldsymbol{\beta}$, und hat die Varianzen $\mathbb{V}\text{ar}(\hat{\beta}_j^{OLS})=\sigma^2 (\mathbf{X}'\mathbf{X})^{-1}_{jj}=\frac{\sigma^2}{1-R^2_j}$ mit den (multiplen) Determinationskoeffizienten $R^2_j$
+  \item $\text{MSE}(\hat{\beta}_j^ {OLS})=\mathbb{V}\text{ar}(\hat{\beta}_j^ {OLS})+(Bias(\hat{\beta}_j^ {OLS}))^2=\mathbb{V}\text{ar}(\hat{\beta}_j^ {OLS})$
   \end{itemize}
 \end{frame}
+
 
 
 
@@ -245,6 +223,48 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 	\textbf{Vermutung:} aussagekräftige Knotenzentralitätsmaße für jeden Knoten verbessern die Schätzung bei einer netzwerkbasoierten penalisierten Regression weiter
 \end{frame}
 
+
+\begin{frame}
+	\frametitle{Zentralitätsmaße in a nutshell}
+	\begin{align*}
+	\text{Adjazenzmatrix: } \mathbf{A}=\begin{pmatrix}
+	0 & 1 & 1 & 0 & 1 \\
+	1 & 0 & 0 & 1 & 0 \\
+	1 & 0 & 0 & 0 & 0 \\
+	0 & 1 & 0 & 0 & 1 \\
+	1 & 0 & 0 & 1 & 0
+	\end{pmatrix} \qquad \text{Graph }G(V,E)
+	\end{align*}
+	\begin{figure}
+	\centering
+	\includegraphics[width=0.4\linewidth]{./Graph_Beispiel2}
+	%\caption{}
+	\label{fig:graphentheorie}
+	\end{figure}
+\end{frame}
+
+
+\begin{frame}
+	sei $D(u, v)$ die Distanz, d.h. der kürzeste Weg, zwischen zwei Knoten $u$ und $v$ 
+	\begin{align*}
+	\text{Closeness-Zentralität: } & C(u)=\frac{1}{\sum_{v \in V \setminus u} D(u, v)}
+	\end{align*}
+	sei $\varpi(v,w|u)$ die Summe an Distanzen zwischen $v$ und $w$, auf denen $u$ liegt, und sei $\varpi(v,w)$ die gesamte Anzahl an Distanzen zwischen $v$ und $w$
+	\begin{align*}
+		\text{Betweenness-Zentralität: } B(u)=\sum_{u \neq v \neq w \in V} \frac{\varpi(v,w|u)}{\varpi(v,w)}\\
+	\end{align*}
+\end{frame}
+
+\begin{frame}
+sei $\mathbf{A}\mathbf{e}=\lambda_{max} \mathbf{e}$ ein Eigenwertproblem und $\lambda_{max}$ der größte Eigenwert mit zugehörigem Eigenvektor $\mathbf{e}=(e_1,\dots, e_{p})'$:
+	\begin{align*}
+	&\text{Eigenvektor-Zentralität: } & \lambda_{max} e_u &= \sum_{v \in V\setminus u} e_v a_{u,v} \notag \\
+	&&\Leftrightarrow e_u &=\frac{1}{\lambda_{max}} \sum_{v \in V\setminus u} e_v a_{u,v}
+	\end{align*}
+	Eigenvektor-Zentralität misst die Bedeutung eines Knotens daran, wie bedeutsam seine Nachbarn sind 
+\end{frame}
+
+
 \begin{frame}
 \begin{figure}
 \centering
@@ -263,6 +283,8 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 \label{fig:pancreas}
 \end{figure}
 \end{frame}
+
+
 
 \begin{frame}
 	\begin{itemize}
@@ -411,7 +433,11 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 	\item NBPR-Versionen: zwischen $182.71$ ($\text{NBPR}_{E,R}$) und $236.30$ ($\text{NBPR}_{\sqrt{d}}$)
 	\item NBPR-Versionen haben teilweise hohe Standardabweichungen durch mögliche Ausreißer
 	\end{itemize}
-	\item dur
+	\item durchschnittlicher Vorhersagefehler $\frac{1}{n}(\mathbf{X}\boldsymbol{\hat{\beta}}- \mathbf{Y})'(\mathbf{X}\boldsymbol{\hat{\beta}}- \mathbf{Y})$:
+	\begin{itemize}
+	\item Enet: $238.2$
+	\item NBPR-Versionen deutlich höher: $886.66$ ($\text{NBPR}_{B,R}$) bis $1044.30$ ($\text{NBPR}_{\sqrt{d}}$)
+	\end{itemize}
 	\end{itemize}
 \end{frame}
 
