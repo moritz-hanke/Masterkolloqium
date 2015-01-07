@@ -346,12 +346,11 @@ sei $\mathbf{A}\mathbf{e}=\lambda_{max} \mathbf{e}$ ein Eigenwertproblem und $\l
 	%\caption{}
 	\label{fig:beispiel}
 	\end{figure}
-	\item $p=1000$
-	\item $n=300$ 
+	\item $p=1000$, $n=300$ 
 	\begin{itemize}
-	\item $50$ zur Suche der optimalen Tuningparameter
-	\item $50$ für Schätzung von $\boldsymbol{\beta}$
-	\item $200$ für Beurteilung der Güte
+	\item $n_{tune}=50$ zur Suche der optimalen Tuningparameter
+	\item $n_{train}=50$ für Schätzung von $\boldsymbol{\beta}$
+	\item $n_{test}=200$ für Beurteilung der Güte
 	\end{itemize}
 	\item $\beta_1,\dots,\beta_{20}=2$, $\beta_{21},\dots,\beta_{50}=1$, restlichen $\beta_j=0$
 	\item $\varepsilon_i \sim N(0,8)$  
@@ -431,19 +430,32 @@ sei $\mathbf{A}\mathbf{e}=\lambda_{max} \mathbf{e}$ ein Eigenwertproblem und $\l
 	\begin{itemize}
 	\item Enet: $155.56$
 	\item NBPR-Versionen: zwischen $182.71$ ($\text{NBPR}_{E,R}$) und $236.30$ ($\text{NBPR}_{\sqrt{d}}$)
-	\item NBPR-Versionen haben teilweise hohe Standardabweichungen durch mögliche Ausreißer
+	\item NBPR-Versionen haben teilweise hohe Standardabweichungen durch potentielle Ausreißer
 	\end{itemize}
 	\item durchschnittlicher Vorhersagefehler $\frac{1}{n}(\mathbf{X}\boldsymbol{\hat{\beta}}- \mathbf{Y})'(\mathbf{X}\boldsymbol{\hat{\beta}}- \mathbf{Y})$:
 	\begin{itemize}
 	\item Enet: $238.2$
 	\item NBPR-Versionen deutlich höher: $886.66$ ($\text{NBPR}_{B,R}$) bis $1044.30$ ($\text{NBPR}_{\sqrt{d}}$)
+	\item einzelnen Vorhersagefehler von NBPR streuen breiter als von der Enet-Regression 
 	\end{itemize}
 	\end{itemize}
 \end{frame}
 
 
 \begin{frame}
-	\frametitle{Verwendete Software}
+	\begin{itemize}
+	\item durchschnittliche Genauigkeit der Schätzungen für $\boldsymbol{\beta} = 2$, $\boldsymbol{\beta} = 1$ bzw $\boldsymbol{\beta} = 0$
+	\begin{itemize}
+	\item alle Methoden unterschätzen $\boldsymbol{\beta}=2$, wobei Enet mit $1.740$ den schlechtesten und $\text{NBPR}_1$ mit $1.919$ den besten Wert liefert
+	\item für $\boldsymbol{\beta} = 1$ trifft Enet im Durchschnitt fast exakt ($1.010$) den wahren Wert; die NBPR-Versionen liegen zwischen $1.239$ ($\text{NBPR}_{B,R}$) und $1.419$ ($\text{NBPR}_1$)  
+	\item für $\boldsymbol{\beta}\neq 0$ liefert die Enet in Fällen wo $\hat{\beta}_j \neq 0$ gesetzt wird mit $\approx0.5$ die besten Ergebnisse, alle NBPR-Versionen liegen bei $\approx 1$
+	\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Verwendete Software (jeweils aktuelle Version zum Stand 17.12.2014)}
 	\begin{itemize}
 	\item \texttt{R}-Pakete: \texttt{igraph, corpcor, qpgraph, mvtnorm, CVXfromR, glmnet, parallel, KEGGgraph, NCBI2R}
 	\item \texttt{Matlab}-Toolboxen: \mathtt{cvx}
