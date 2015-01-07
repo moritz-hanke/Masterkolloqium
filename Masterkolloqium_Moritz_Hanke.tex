@@ -147,7 +147,7 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 	\pause \item Annahme, dass $\boldsymbol{\beta}$ spärlich besetzt ist, d.h. $\beta_j=0$ für die meisten Regressionskoeffizienten gilt
 	\pause \item Beispiel Genetik: Expressionslevelmessungen von mehreren tausend Genen für wenige hundert Probanden für eine Krankheit; biologisch beteiligt an der Entstehung der Krankheit sind aber nur wenige Gene
 	\pause \item die Unverzerrtheit des OLS-Schätzers {\glqq}opfern{\grqq} um eindeutige und stabile $\boldsymbol{\hat{\beta}}$ zu erhalten, die wie $\boldsymbol{\beta}$ spärlich besetzt sind und möglichst geringen MSE durch Varianzverminderung aufweisen
-	\pause \item zusätzlich zuvor bekannte Informationen wie Zusammenhang zwischen den Kovariablen (Netzwerk) bei der Schätzung berücksichtigen
+	\pause \item zusätzlich zuvor bekannte Informationen wie Zusammenhang zwischen den Kovariablen (Netzwerk) und deren jeweilige Bedeutung bei der Schätzung berücksichtigen
 	\end{itemize}
 \end{frame}
 
@@ -244,6 +244,7 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 	\item  Beispiel Genetik: Informationen über Zusammenhänge zwischen einzelnen Genen oder Genprodukten bzw. zwischen Genen und Proteinen vorhanden
 	\item darstellbar mittels Graphentheorie durch Knoten und Kanten sowie Kantengewichten bzw. -richtungen
 	\end{itemize}
+	\textbf{Vermutung:} aussagekräftige Knotenzentralitätsmaße für jeden Knoten verbessern die Schätzung bei einer netzwerkbasoierten penalisierten Regression weiter
 \end{frame}
 
 \begin{frame}
@@ -317,21 +318,23 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 \begin{frame}
 	\frametitle{Simulationsdesign}
 	\begin{itemize}
-	\item auf Grundlage der KEGG-Datenbank mittels \texttt{R} Simulation realistischerer Graphen als bei \cite{kim_network-based_2013}:
+	\item $100$ Datensätze
+	\item auf Grundlage von KEGG-Datenbank Simulation realistischer Graphen:
 	\begin{figure}
 	\centering
 	\includegraphics[width=0.4\linewidth]{./Beispielgraph}
 	%\caption{}
 	\label{fig:beispiel}
 	\end{figure}
-	\item $100$ Datensätze
 	\item $p=1000$
 	\item $n=300$ 
 	\begin{itemize}
-	\item $50$ zur Suche der optimalen Tuningparameter durch Kreuzvalidierung (Kombination aus \texttt{R} und \texttt{Matlab})
-	\item $50$ für Schätzung von $\boldsymbol{\beta}$ (Kombination aus \texttt{R} und \texttt{Matlab})
-	\item $200$ für Beurteilung der Güte (\texttt{R})
+	\item $50$ zur Suche der optimalen Tuningparameter
+	\item $50$ für Schätzung von $\boldsymbol{\beta}$
+	\item $200$ für Beurteilung der Güte
 	\end{itemize}
+	\item $\beta_1,\dots,\beta_{20}=2$, $\beta_{21},\dots,\beta_{50}=1$, restlichen $\beta_j=0$
+	\item $\varepsilon_i \sim N(0,8)$  
 	\end{itemize}
 \end{frame}
 
@@ -345,7 +348,7 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 	\text{RSS}+\gamma \alpha \sum_{j=1}^{p}|\beta_j| + \gamma (1-\alpha) \sum_{j=1}^{p}\beta_j^2
 	\end{align*}
 	\item Parameter $\alpha$ aus Sequenz $\alpha={0.05, 0.1, \dots ,0.95}$; $\gamma$ aus Sequenz, die automatisch von \texttt{R}-Funktion \texttt{cv.glmnet} gewählt wird 
-	\item optimale Parameterkombinationmittels zehnfacher Kreuzvalidierung gewählt
+	\item optimale Parameterkombination mittels zehnfacher Kreuzvalidierung gewählt
 	\end{itemize}
 	\end{itemize}
 \end{frame}
@@ -375,7 +378,28 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 \begin{frame}
 	\frametitle{Ergebnisse}
 	\begin{itemize}
-	\item numerische Stabilität
+	\item numerische Stabilität:
+	\begin{itemize}
+	\item Enet liefert bei allen $100$ Simulationsdurchläufen stabile Schätzer
+	\item Anteil an Simulationsdurchläufen mit stabilen Schätzern für NBPR zwischen \colorbox{red}{$74\%$} ($\text{NBPR}_{C,R}$) und \colorbox{red}{$38\%$} ($\text{NBPR}_{1}$)
+	\item numerisch instabile Schätzer liegen in Intervallen $[-2000000,-1000]$ bzw. $[1000,8000000]$
+	\end{itemize}
+	\item durchschnittliche richtig-positiv-Rate:
+	\begin{itemize}
+	\item Enet niedrigste Rate (ca. $43\%$)
+	\item NBPR-Versionen zwischen $44\%$ ($\text{NBPR}_{C}$) und $49\%$ ($\text{NBPR}_{\sqrt{d}}$)
+	\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+	\begin{itemize}
+	\item durchschnittliche falsch-positiv-Rate:
+	\begin{itemize}
+	\item Enet zweitkleinsten Wert (ca. $5\%$)
+	\item 
+	\end{itemize}
 	\end{itemize}
 \end{frame}
 
