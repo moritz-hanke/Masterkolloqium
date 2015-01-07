@@ -2,6 +2,12 @@
 \usepackage[utf8x]{inputenc}
 \usepackage[ngerman]{babel}
 
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+
+
 \usepackage{apager}
 
 \usepackage{comment} 
@@ -70,12 +76,12 @@ Studiengang Medical Biometry/Biostatistics (M.Sc.)\\
 Fachbereich 3: Mathematik, Universität Bremen\\
 \includegraphics[width=0.5\textwidth,height=.19\textheight]{Logos}}
 \date{\today}
- 
+
 \begin{document}
 \selectlanguage{ngerman}
 \maketitle
 %\frame{\tableofcontents[currentsection]}
- 
+
 \section{Problemstellung und Idee}
 \begin{frame} %%Eine Folie
   \frametitle{Das klassische lineare Regressionsmodell} %%Folientitel
@@ -278,7 +284,7 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 
 \begin{frame}
 	\begin{itemize}
-	\item Weiterentwicklung von \cite{kim_network-based_2013} mit {\glqq}idealem{\grqq} Strafterm:
+	\item Weiterentwicklung (i.F. $\text{NBPR}$) von \cite{kim_network-based_2013} mit {\glqq}idealem{\grqq} Strafterm:
 	\begin{align*}
 	\gamma_1 \sum_{j=1}^{p}I(|\beta_j|\neq 0) + \gamma_2 \sum_{\{u,v\}}\left| I\left( \frac{|\beta_u|}{c_u} \neq 0 \right) - I\left( \frac{|\beta_v|}{c_v} \neq 0 \right) \right|
 	\end{align*}
@@ -311,13 +317,14 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 \begin{frame}
 	\frametitle{Simulationsdesign}
 	\begin{itemize}
-	\item auf Grundlage der KEGG-Datenbank mittels \texttt{R} Simulation realistischere Graphen als bei \cite{kim_network-based_2013}:
+	\item auf Grundlage der KEGG-Datenbank mittels \texttt{R} Simulation realistischerer Graphen als bei \cite{kim_network-based_2013}:
 	\begin{figure}
 	\centering
 	\includegraphics[width=0.4\linewidth]{./Beispielgraph}
 	%\caption{}
 	\label{fig:beispiel}
 	\end{figure}
+	\item $100$ Datensätze
 	\item $p=1000$
 	\item $n=300$ 
 	\begin{itemize}
@@ -325,16 +332,68 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 	\item $50$ für Schätzung von $\boldsymbol{\beta}$ (Kombination aus \texttt{R} und \texttt{Matlab})
 	\item $200$ für Beurteilung der Güte (\texttt{R})
 	\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Schätzung der Regressionskoeffizienten}
+	\begin{itemize}
+	\item für Enet:
+	\begin{itemize}
+	\item alternative Darstellung Enet:
+	\begin{align*}
+	\text{RSS}+\gamma \alpha \sum_{j=1}^{p}|\beta_j| + \gamma (1-\alpha) \sum_{j=1}^{p}\beta_j^2
+	\end{align*}
+	\item Parameter $\alpha$ aus Sequenz $\alpha={0.05, 0.1, \dots ,0.95}$; $\gamma$ aus Sequenz, die automatisch von \texttt{R}-Funktion \texttt{cv.glmnet} gewählt wird 
+	\item optimale Parameterkombinationmittels zehnfacher Kreuzvalidierung gewählt
+	\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
+	\item für $\text{NBPR}$:
+	\begin{itemize}
+	\item Knotengewichte mit unterschiedlichen Zentralitätsmaßen:
+	\begin{itemize}
+	\item Rangplätze ermittelt aus Betweenness-, Closeness- und Eigenvektor-Zentralität sowie Knotengrad ($\text{NBPR}_{B,R}$, $\text{NBPR}_{C,R}$, $\text{NBPR}_{E,R}$ und $\text{NBPR}_{d,R}$)
+	\item Wurzel aus Knotengrad ($\text{NBPR}_{\sqrt{d}}$) und Closeneness-Zentralität ($\text{NBPR}_{C}$)
+	\item keine Gewichtung ($\text{NBPR}_{1}$)
+	\end{itemize}
 	\item Enet als Startschätzer für $t=1$
+	\item Wahl der Tuningparameter über kleinsten Vorhersagefehler für Kombination aus $4\cdot 4 \cdot 5 =80$ von $\gamma_1$, $\gamma_2$ und $\tau$:
+	\begin{align*}
+	&\gamma_1/\tau \in \left[ \max(|\boldsymbol{\hat{\beta}}^{Enet}|), \max(|\boldsymbol{\hat{\beta}}^{Enet}|) \cdot \frac{p}{4} \right] \\
+	&\gamma_2/\tau \in \left[ N_E, \max(|\boldsymbol{\hat{\beta}}^{Enet}|) \cdot N_E \right]\\
+	&\tau \in \left[0.000001, \frac{N_E}{2}\right]
+	\end{align*}
+	\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Ergebnisse}
+	\begin{itemize}
+	\item numerische Stabilität
 	\end{itemize}
 \end{frame}
 
 
 
-\begin{frame}{Bibliography}
-\bibliographystyle{apager}
-\bibliography{Masterarbeit}
+\begin{frame}
+	\frametitle{Verwendete Software}
+	\begin{itemize}
+	\item \texttt{R}-Pakete: \texttt{igraph, corpcor, qpgraph, mvtnorm, CVXfromR, glmnet, parallel, KEGGgraph, NCBI2R}
+	\item \texttt{Matlab}-Toolboxen: \mathtt{cvx}
+	\end{itemize}
 \end{frame}
+
+
+%\begin{frame}{Bibliography}
+%\bibliographystyle{apager}
+%\bibliography{Masterarbeit}
+%\end{frame}
 
 
 %\begin{frame}[t,allowframebreaks]
@@ -343,6 +402,6 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 %\end{frame}
 
 
-$  $
+
 
 \end{document}
