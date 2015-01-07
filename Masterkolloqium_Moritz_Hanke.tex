@@ -4,7 +4,7 @@
 
 \usepackage{apager}
 
-
+\usepackage{comment} 
 
 \usetheme{Montpellier}  %% Themenwahl
 
@@ -159,7 +159,7 @@ Fachbereich 3: Mathematik, Universität Bremen\\
   \end{itemize} 
 \end{frame}
 
-
+\begin{comment}
 \begin{frame}
 \frametitle{\glqq Klassische{\grqq} Penalisierungen ohne Vorabinformationen}
 	\begin{itemize}
@@ -195,33 +195,39 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 	\end{itemize}
 	\end{itemize}
 \end{frame}
-
+\end{comment}
 
 \begin{frame}
+\frametitle{Der \glqq Goldstandard{\grqq} für $p \gg n$}
 	\begin{itemize}
 	\item \textit{Elastic-Net-Regression} von \cite{zou_regularization_2005}:
 	\begin{align*}
 	\boldsymbol{\hat{\beta}}^{Enet}(\gamma_1, \gamma_2)=&\arg \displaystyle\min_{\beta} \left\lbrace \text{RSS}  + \gamma_1 \sum_{j=1}^{p}|\beta_j| + \gamma_2 \sum_{j=1}^{p}\beta_j^2 \right\rbrace\\ &\text{mit} \ \gamma_1,\gamma_2 \ge 0
 	\end{align*}
+	\item Kombination der Stärken der Ridge-Regression (\cite{hoerl_ridge_1970}) und Lasso-Regression (\cite{tibshirani96regression}):
 	\begin{itemize}
-	\item Variablenselektion, stabile Schätzer und Gruppierungseffekt
-	\item Für die Differenz zweier Kovariablen
-	\begin{align*}
-	D_{\gamma_1,\gamma_2}(k,l)=\frac{1}{||\mathbf{Y}||_1}||\hat{\beta}_k^{Enet}(\gamma_1,\gamma_2)-\hat{\beta}_l^{Enet}(\gamma_1,\gamma_2)||_2
-	\end{align*}
-	gilt mit Korrelationskoeffizient $\rho$:
-	\begin{align*}
-	D_{\gamma_1,\gamma_2}(k,l) \leq \frac{1}{\gamma_2}\sqrt{2(1-\rho_{k,l})}
-	\end{align*}
-	\end{itemize}
+	\item Variablenselektion 
+	\item stabile Schätzer
+	\item Gruppierungseffekt
+	\end{itemize}	
 	\end{itemize}
 \end{frame}
 
+\begin{frame}
+	Zudem: für die Differenz zweier Kovariablen
+		\begin{align*}
+		D_{\gamma_1,\gamma_2}(k,l)=\frac{1}{||\mathbf{Y}||_1}||\hat{\beta}_k^{Enet}(\gamma_1,\gamma_2)-\hat{\beta}_l^{Enet}(\gamma_1,\gamma_2)||_2
+		\end{align*}
+		gilt mit Korrelationskoeffizient $\rho$:
+		\begin{align*}
+		D_{\gamma_1,\gamma_2}(k,l) \leq \frac{1}{\gamma_2}\sqrt{2(1-\rho_{k,l})}
+		\end{align*}
+\end{frame}
 
 \begin{frame}
 	ABER:
 	\begin{itemize}
-	\item Enet liefert nicht das wahre Modell, wenn $\mathbf{X}$ die sogenannte Irreprestable-Condition nicht erfüllt (vgl. \cite{jia_2008Enet_Consistency})
+	\item Enet liefert nicht das wahre Modell, wenn $\mathbf{X}$ die sogenannte Irreprestable-Condition nicht erfüllt, was sich i.d.R.nicht überprüfen lässt und deswegen für die reale Datensätze angenommen werden muss (vgl. \cite{jia_2008Enet_Consistency})
 	\item a priori vorliegende Informationen über Kovariablen werden nicht genutzt
 	\end{itemize}
 \end{frame}
@@ -241,7 +247,7 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 %\caption{}
 \label{fig:hsa05212}
 \end{figure}
-\end{frame}\caption{}
+\end{frame}
 
 
 \begin{frame}
@@ -261,11 +267,67 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 	+\gamma_1||\boldsymbol{\beta}||_1
 	+\gamma_2 \left( \sum_{\{u,v\}} \left(\frac{\beta_u}{\sqrt{d(u)}}-\frac{\beta_v}{\sqrt{d(v)}}\right)^2 w(\{u,v\})\right)
 	\end{align*}
-	\item 
+	\item $\{u,v\}$ als ungerichtete Kante zwischen Knoten (Kovariable) $u$ und $v$ (a priori Information; Unterschied zu Enet)
+	\item $d(u)$ als Knotengrad von $u$
+	\item $w(\{u,v\})$ als Kantengewichtung zwischen $u$ und $v$
+	\item zweiter Strafterm bewirkt Glättung
+	\item strikt konvex, deswegen Gruppierungseffekt wie bei Enet
 	\end{itemize}
 \end{frame}
 
 
+\begin{frame}
+	\begin{itemize}
+	\item Weiterentwicklung von \cite{kim_network-based_2013} mit {\glqq}idealem{\grqq} Strafterm:
+	\begin{align*}
+	\gamma_1 \sum_{j=1}^{p}I(|\beta_j|\neq 0) + \gamma_2 \sum_{\{u,v\}}\left| I\left( \frac{|\beta_u|}{c_u} \neq 0 \right) - I\left( \frac{|\beta_v|}{c_v} \neq 0 \right) \right|
+	\end{align*}
+	\item $c_u$ bzw. $c_v$ als Knotengewichtung
+	\item Indikatorfunktion problematisch, weil
+	alleine der erste Starfterm schon $2^p$ mögliche Lösungen hat (nicht in Polynomialzeit lösbar)
+	\item Approximation der von $I(\cdot)$ durch  $J_\tau(|z|)=\min (\frac{|z|}{\tau}, 1)$ mit Tuningparameter $\tau \rightarrow 0$
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+	\begin{itemize}
+	\item $J_\tau(|z|)$ ist nicht konvex, Autoren verwenden deswegen einen \textit{difference convex programming-algorithm} und erhalten als Starfterm für Iterationsschritt $t$:
+	\begin{align*}
+	P_t(\gamma_1, \gamma_2, \tau) =& \frac{\gamma_1}{\tau} \sum_{j=1}^{p}\left(|\beta_j|\cdot I(|\hat{\beta}_j^{(t-1)}| \leq \tau)\right) \notag \\
+	&+ \gamma_2 \sum_{\{u,v\}} 2\max \left[\frac{|\beta_u|}{c_u}+\max\left(\frac{|\beta_v|}{c_v}-\tau, 0\right), \right. \\
+	&\phantom{{}=1111} \left.\frac{|\beta_v|}{c_v}+\max\left(\frac{|\beta_u|}{c_u}-\tau, 0\right)\right] \notag \\
+	&- \frac{\gamma_2}{\tau} \sum_{\{u,v\}} \left\lbrace
+	\frac{\beta_u}{c_u}\text{sign}(\hat{\beta}_u^{(t-1)}) \left[1+I\left(\frac{|\hat{\beta}_u^{(t-1)}|}{c_u}>\tau \right) \right] \right. \notag \\
+	&\phantom{{}=1111} \left. + 
+	\frac{\beta_v}{c_v}\text{sign}(\hat{\beta}_v^{(t-1)})\left[1+I\left(\frac{|\hat{\beta}_v^{(t-1)}|}{c_v}>\tau \right) \right]
+	\right\rbrace
+	\end{align*}
+	\end{itemize}
+\end{frame}
+
+
+\section{Simualtionsstudie}
+\begin{frame}
+	\frametitle{Simulationsdesign}
+	\begin{itemize}
+	\item auf Grundlage der KEGG-Datenbank und mit \texttt{R} wurden realistischere Graphen als bei \cite{kim_network-based_2013} simuliert:
+	\begin{figure}
+	\centering
+	\includegraphics[width=0.4\linewidth]{./Beispielgraph}
+	%\caption{}
+	\label{fig:beispiel}
+	\end{figure}
+	\item $p=1000$
+	\item $n=300$ 
+	\begin{itemize}
+	\item $50$ zur Suche der optimalen Tuningparameter durch Kreuzvalidierung (Kombination aus \texttt{R} und \texttt{Matlab})
+	\item $50$ für Schätzung von $\boldsymbol{\beta}$ (Kombination aus \texttt{R} und \texttt{Matlab})
+	\item $200$ für Beurteilung der Güte (\texttt{R})
+	\end{itemize}
+	\item Enet als Startschätzer für $t=1$
+	\end{itemize}
+\end{frame}
 
 
 
@@ -281,6 +343,6 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 %\end{frame}
 
 
-
+$  $
 
 \end{document}
