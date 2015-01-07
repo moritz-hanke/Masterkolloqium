@@ -69,10 +69,8 @@
 
 \subtitle{Kolloqium zur Masterarbeit}
 \title[Zentralitätsmaße bei der NBPR]{Der Einfluss von Zentralitätsmaßen bei der netzwerkbasierten penalisierten Regression}
-\author{von: Moritz Hanke\\
-Betreuung: Prof. Dr. Iris Pigeot-Kübler \& Dr. Ronja Foraita }
-\institute{Matrikelnummer: 2404575\\
-Studiengang Medical Biometry/Biostatistics (M.Sc.)\\
+\author{von: Moritz Hanke}
+\institute{Studiengang Medical Biometry/Biostatistics (M.Sc.)\\
 Fachbereich 3: Mathematik, Universität Bremen\\
 \includegraphics[width=0.5\textwidth,height=.19\textheight]{Logos}}
 \date{\today}
@@ -397,12 +395,25 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 	\begin{itemize}
 	\item durchschnittliche falsch-positiv-Rate:
 	\begin{itemize}
-	\item Enet zweitkleinsten Wert (ca. $5\%$)
-	\item 
+	\item Enet zweitkleinsten Wert ($5.2\%$)
+	\item NBPR-Versionen zwischen $4.8\%$ ($\text{NBPR}_{C}$) und $9.4\%$ ($\text{NBPR}_{\sqrt{d}}$)
+	\item im \textbf{Durchschnitt über alle Simulationen} geht eine Erhöhung der RP-Rate mit einer Erhöhung der FP-Rate einher; \textbf{ABER:} werden die Simulationen individuell betrachtet, gibt es keinen eindeutigen Richtungszusammenhang  
 	\end{itemize}
 	\end{itemize}
 \end{frame}
 
+
+\begin{frame}
+	\begin{itemize}
+	\item durchschnittlicher Modellfehler $(\boldsymbol{\hat{\beta}}- \boldsymbol{\beta})'\mathbb{C}\text{ov}(\mathbf{X})(\boldsymbol{\hat{\beta}}- \boldsymbol{\beta})$:
+	\begin{itemize}
+	\item Enet: $155.56$
+	\item NBPR-Versionen: zwischen $182.71$ ($\text{NBPR}_{E,R}$) und $236.30$ ($\text{NBPR}_{\sqrt{d}}$)
+	\item NBPR-Versionen haben teilweise hohe Standardabweichungen durch mögliche Ausreißer
+	\end{itemize}
+	\item dur
+	\end{itemize}
+\end{frame}
 
 
 \begin{frame}
