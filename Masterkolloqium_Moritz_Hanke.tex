@@ -68,7 +68,7 @@
   \end{centering}
 }
 
-\subtitle{Kolloqium zur Masterarbeit}
+\subtitle{Kolloquium zur Masterarbeit}
 \title[Zentralitätsmaße bei der NBPR]{Der Einfluss von Zentralitätsmaßen bei der netzwerkbasierten penalisierten Regression}
 \author{von: Moritz Hanke}
 \institute{Studiengang Medical Biometry/Biostatistics (M.Sc.)\\
@@ -107,9 +107,9 @@ Fachbereich 3: Mathematik, Universität Bremen\\
   ABER: 
     \begin{itemize}
     \item für $n < p$ ist $\text{rang}(\mathbf{X}
-    )<p+1$ und deswegen $\left(\mathbf{X}'\mathbf{X}\right)^{-1}$ nicht invertierbar
+    )<p+1$ und deswegen $\left(\mathbf{X}'\mathbf{X}\right)$ nicht invertierbar
     \item liegt Multikollinearität vor, d.h. ist $R^2_j$ nahe $1$, ist die Varianz der einzelnen $\hat{\beta}_j^{OLS}$ bzw. der entsprechende MSE hoch und damit der Schätzer ungenau
-    \item bei perfekter Multikollinearität ist $\mathbf{X}$ singulär und $\left(\mathbf{X}'\mathbf{X}\right)^{-1}$ nicht invertierbar
+    \item bei perfekter Multikollinearität ist $\mathbf{X}$ singulär und $\left(\mathbf{X}'\mathbf{X}\right)$ nicht invertierbar
     \end{itemize}
     \begin{itemize}
     \item diese Probleme sind bei hochdimensionalen Daten, d.h. $p \gg n$, gegeben
@@ -205,15 +205,9 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 		\begin{align*}
 		D_{\gamma_1,\gamma_2}(k,l) \leq \frac{1}{\gamma_2}\sqrt{2(1-\rho_{k,l})}
 		\end{align*}
+		ABER: a priori vorliegende Informationen über Kovariablen werden nicht genutzt
 \end{frame}
 
-\begin{frame}
-	ABER:
-	\begin{itemize}
-	\item Enet liefert nicht das wahre Modell, wenn $\mathbf{X}$ die sogenannte Irreprestable-Condition nicht erfüllt; i.d.R. nicht überprüfbar weswegen für reale Datensätze angenommen werden muss, das sie verletzt ist (vgl. \cite{jia_2008Enet_Consistency})
-	\item a priori vorliegende Informationen über Kovariablen werden nicht genutzt
-	\end{itemize}
-\end{frame}
 
 \begin{frame}
 \frametitle{Penalisierungen auf Grundlage von Netzwerkinformationen}
@@ -238,7 +232,7 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 	\end{align*}
 	\begin{figure}
 	\centering
-	\includegraphics[width=0.4\linewidth]{./Graph_Beispiel2}
+	\includegraphics[width=0.65\linewidth]{./Graph_Beispiel2}
 	%\caption{}
 	\label{fig:graphentheorie}
 	\end{figure}
@@ -293,7 +287,7 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 
 \begin{frame}
 	\begin{itemize}
-	\item ursprüngliche netzwerkbasierte Regression von \cite{li_network-constrained_2008} mit zu minimierendem Term:
+	\item ursprüngliche netzwerkbasierte penalisierte Regression von \cite{li_network-constrained_2008} mit zu minimierendem Term:
 	\begin{align*}
 	\text{RSS}
 	+\gamma_1\sum_{j=1}^{p}|\beta_j|
@@ -316,7 +310,7 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 	\end{align*}
 	\item $c_u$ bzw. $c_v$ als Knotengewichtung
 	\item Indikatorfunktion problematisch, weil
-	alleine der erste Starfterm schon $2^p$ mögliche Lösungen hat (nicht in Polynomialzeit lösbar)
+	alleine der erste Strafterm schon $2^p$ mögliche Lösungen hat (nicht in Polynomialzeit lösbar)
 	\item Approximation der von $I(\cdot)$ durch  $J_\tau(|z|)=\min (\frac{|z|}{\tau}, 1)$ mit Tuningparameter $\tau \rightarrow 0$
 	\end{itemize}
 \end{frame}
@@ -324,9 +318,10 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 
 \begin{frame}
 	\begin{itemize}
-	\item $J_\tau(|z|)$ ist nicht konvex, Autoren verwenden deswegen einen \textit{difference convex programming-algorithm} und erhalten als Starfterm für Iterationsschritt $t$:
+	\item $J_\tau(|z|)$ ist nicht konvex, Autoren verwenden deswegen einen \textit{difference convex programming-algorithm} und erhalten als PRSS für Iterationsschritt $t$:
+	\end{itemize}
 	\begin{align*}
-	P_t(\gamma_1, \gamma_2, \tau) =& \frac{\gamma_1}{\tau} \sum_{j=1}^{p}\left(|\beta_j|\cdot I(|\hat{\beta}_j^{(t-1)}| \leq \tau)\right) \notag \\
+	\text{PRSS}_t(\gamma_1, \gamma_2, \tau) =& RSS+ \frac{\gamma_1}{\tau} \sum_{j=1}^{p}\left(|\beta_j|\cdot I(|\hat{\beta}_j^{(t-1)}| \leq \tau)\right) \notag \\
 	&+ \gamma_2 \sum_{\{u,v\}} 2\max \left[\frac{|\beta_u|}{c_u}+\max\left(\frac{|\beta_v|}{c_v}-\tau, 0\right), \right. \\
 	&\phantom{{}=1111} \left.\frac{|\beta_v|}{c_v}+\max\left(\frac{|\beta_u|}{c_u}-\tau, 0\right)\right] \notag \\
 	&- \frac{\gamma_2}{\tau} \sum_{\{u,v\}} \left\lbrace
@@ -335,11 +330,10 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 	\frac{\beta_v}{c_v}\text{sign}(\hat{\beta}_v^{(t-1)})\left[1+I\left(\frac{|\hat{\beta}_v^{(t-1)}|}{c_v}>\tau \right) \right]
 	\right\rbrace
 	\end{align*}
-	\end{itemize}
 \end{frame}
 
 
-\section{Simualtionsstudie}
+\section{Simulationsstudie}
 \begin{frame}
 	\frametitle{Simulationsdesign}
 	\begin{itemize}
@@ -449,11 +443,11 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 
 \begin{frame}
 	\begin{itemize}
-	\item durchschnittliche Genauigkeit der Schätzungen für $\boldsymbol{\beta} = 2$, $\boldsymbol{\beta} = 1$ bzw $\boldsymbol{\beta} = 0$
+	\item durchschnittliche Genauigkeit der Schätzungen für $\boldsymbol{\beta} = 2$, $\boldsymbol{\beta} = 1$ bzw. $\boldsymbol{\beta} = 0$
 	\begin{itemize}
 	\item alle Methoden unterschätzen $\boldsymbol{\beta}=2$, wobei Enet mit $1.740$ den schlechtesten und $\text{NBPR}_1$ mit $1.919$ den besten Wert liefert
 	\item für $\boldsymbol{\beta} = 1$ trifft Enet im Durchschnitt fast den wahren Wert ($1.010$); die NBPR-Versionen liegen zwischen $1.239$ ($\text{NBPR}_{B,R}$) und $1.419$ ($\text{NBPR}_1$)  
-	\item für $\boldsymbol{\beta}\neq 0$ liefert Enet in Fällen wo $\hat{\beta}_j \neq 0$ gesetzt wird mit $\approx0.5$ die besten Ergebnisse, alle NBPR-Versionen liegen bei $\approx 1$
+	\item für $\boldsymbol{\beta}= 0$ liefert Enet in Fällen, wo $\hat{\beta}_j \neq 0$ gesetzt wird, mit $\approx0.5$ die besten Ergebnisse, alle NBPR-Versionen liegen bei $\approx 1$
 	\end{itemize}
 	\end{itemize}
 \end{frame}
@@ -461,7 +455,30 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 
 \section{Fazit und Ausblick}
 \begin{frame}
+\begin{itemize}
+\item durch die zumindest im Simulationssetting hohe numerische Instabilität ist NBPR der Enet unterlegen und deshalb ggf. nicht für ähnliche reale Datensätze brauchbar
+\item mit Ausnahme der RP-Rate unterliegen im Hinblick auf die Gütekritierien alle NBPR-Versionen der Enet-Regression
+\item die hohen Vorhersage- und Modellfehler der NBPR-Methode kommen durch generell ungenauere $\hat{\beta}_j$ zustande
+\item in den meisten Simulationsdurchläufen setzen Enet und NBPR die selben $\hat{\beta}\neq 0$ für $\boldsymbol{\beta}\neq 0$; NBPR liefert keinen zusätzlichen Mehrwert, wenn Enet als Startschätzer genommen wird
+\item nur geringe numerische Unterschiede in Gütekritieren bei NBPR-Versionen; Einfluss von Zentralitätsmaßen anscheinend geringer als angenommen
+\end{itemize}
+\end{frame}
 
+
+\begin{frame}
+Anknüpfungspunkte für zukünftige Arbeiten:
+\begin{itemize}
+\item Gründe für die numerische Instabilität der NBPR
+\item Gründe für deren relativ schlechte Werte bei den Gütekriterien (auch im Hinblick auf gewähltes Setting)
+\item Verbesserung des Penalisierungsterms:
+\begin{itemize}
+\item Knotengewichtungen auch in $\frac{\gamma_1}{\tau} \sum_{j=1}^{p}\left(|\beta_j|\cdot I(|\hat{\beta}_j^{(t-1)}| \leq \tau)\right)$
+\item Bestimmung optimaler Intervallgrenzen für Tuningparameter
+\item zwei verschiedene Tuningparameter $\tau_1$ und $\tau_2$
+\item Strafterm um Ridge-Term erweitern oder statt Betragsfunktion $L_2$-Norm
+\end{itemize}
+\item Einfluss von Fehlinformationen über das Netzwerk und Datenstruktur auf die Schätzqualität
+\end{itemize}
 \end{frame}
 
 
@@ -471,6 +488,22 @@ Vielen Dank für die Aufmerksamkeit
 
 
 \section{Zusätzliches Material}
+
+\begin{frame}
+	\frametitle{Alternative Strafterme}
+	\begin{itemize}
+	\item Erweiterung mit Ridge-Term
+	\end{itemize}
+	\begin{align*}
+	\gamma_1 \sum_{j=1}^{p}I(|\beta_j|\neq 0) + \gamma_2 \sum_{\{u,v\}}\left| I\left( \frac{|\beta_u|}{c_u} \neq 0 \right) - I\left( \frac{|\beta_v|}{c_v} \neq 0 \right) \right| + \gamma_3\sum_{j=1}^{p}\beta_j^2
+	\end{align*}
+	\begin{itemize}
+	\item $L_2$-Norm im Strafterm (Unterschied bei Approximation von $I(\cdot)$ durch $J_\tau(|z|)=\min (\frac{|z|}{\tau}, 1)$):
+	\end{itemize}
+	\begin{align*}
+	\gamma_1 \sum_{j=1}^{p}I(|\beta_j|\neq 0) + \gamma_2 \sum_{\{u,v\}}\left[ I\left( \frac{|\beta_u|}{c_u} \neq 0 \right) - I\left( \frac{|\beta_v|}{c_v} \neq 0 \right) \right]^2
+	\end{align*}
+\end{frame}
 
 \begin{frame}
 \begin{table}[h]
@@ -617,10 +650,10 @@ $\text{NBPR}_{1}$        & $0.942$                 & $0.142$
 \end{frame}
 
 
-%\begin{frame}{Bibliography}
-%\bibliographystyle{apager}
-%\bibliography{Masterarbeit}
-%\end{frame}
+\begin{frame}{Bibliography}
+\bibliographystyle{apager}
+\bibliography{Masterarbeit}
+\end{frame}
 
 
 %\begin{frame}[t,allowframebreaks]
