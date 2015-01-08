@@ -107,12 +107,12 @@ Fachbereich 3: Mathematik, Universität Bremen\\
     \begin{itemize}
     \pause \item für $n < p$ ist $\text{rang}(\mathbf{X}
     )<p+1$ und deswegen $\left(\mathbf{X}'\mathbf{X}\right)^{-1}$ nicht invertierbar
-    \pause \item liegt Multikollinearität vor, d.h. $R^2_j$ ist nahe $1$, ist die Varianz der einzelnen $\hat{\beta}_j^{OLS}$ bzw. der entsprechende MSE hoch und damit der Schätzer ungenau
+    \pause \item liegt Multikollinearität vor, d.h. ist $R^2_j$ nahe $1$, ist die Varianz der einzelnen $\hat{\beta}_j^{OLS}$ bzw. der entsprechende MSE hoch und damit der Schätzer ungenau
     \pause \item bei perfekter Multikollinearität ist $\mathbf{X}$ singulär und $\left(\mathbf{X}'\mathbf{X}\right)^{-1}$ nicht invertierbar
     \end{itemize}
     \begin{itemize}
     \pause \item diese Probleme sind bei hochdimensionalen Daten, d.h. $p \gg n$, gegeben
-    \item $p \gg n$-Probleme kommen in verschiedenen Bereichen wie bei der Analyse von sozialen Netzwerken, Finanzmärkten, astronomischen Phänomenen und in der Genetik vor
+    \item $p \gg n$-Probleme kommen in verschiedenen Bereichen wie bei der Analyse von sozialen Netzwerken, Finanzmärkten und astronomischen Phänomenen sowie in der Genetik vor
     \end{itemize}
     
 \end{frame}
@@ -121,9 +121,9 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 	IDEE:
 	\begin{itemize}
 	\pause \item Annahme, dass $\boldsymbol{\beta}$ spärlich besetzt ist, d.h. $\beta_j=0$ für die meisten Regressionskoeffizienten gilt
-	\pause \item Beispiel Genetik: Expressionslevelmessungen von mehreren tausend Genen für wenige hundert Probanden für eine Krankheit; biologisch beteiligt an der Entstehung der Krankheit sind aber nur wenige Gene
+	\pause \item Beispiel Genetik: Expressionslevelmessungen von mehreren tausend Genen für wenige hundert Probanden für ein Outcome; biologisch wirklich beteiligt sind aber nur wenige Gene
 	\pause \item die Unverzerrtheit des OLS-Schätzers {\glqq}opfern{\grqq} um eindeutige und stabile $\boldsymbol{\hat{\beta}}$ zu erhalten, die wie $\boldsymbol{\beta}$ spärlich besetzt sind und möglichst geringen MSE durch Varianzverminderung aufweisen
-	\pause \item zusätzlich zuvor bekannte Informationen wie Zusammenhang zwischen den Kovariablen (Netzwerk) und deren jeweilige Bedeutung bei der Schätzung berücksichtigen
+	\pause \item zusätzlich zuvor bekannte Informationen wie den Zusammenhang zwischen den Kovariablen (Netzwerk) und deren jeweilige Bedeutung bei der Schätzung berücksichtigen
 	\end{itemize}
 \end{frame}
 
@@ -209,7 +209,7 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 \begin{frame}
 	ABER:
 	\begin{itemize}
-	\item Enet liefert nicht das wahre Modell, wenn $\mathbf{X}$ die sogenannte Irreprestable-Condition nicht erfüllt, was sich i.d.R.nicht überprüfen lässt und deswegen für die reale Datensätze angenommen werden muss (vgl. \cite{jia_2008Enet_Consistency})
+	\item Enet liefert nicht das wahre Modell, wenn $\mathbf{X}$ die sogenannte Irreprestable-Condition nicht erfüllt; i.d.R. nicht überprüfbar weswegen für reale Datensätze angenommen werden muss, das sie verletzt ist (vgl. \cite{jia_2008Enet_Consistency})
 	\item a priori vorliegende Informationen über Kovariablen werden nicht genutzt
 	\end{itemize}
 \end{frame}
@@ -220,12 +220,12 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 	\item  Beispiel Genetik: Informationen über Zusammenhänge zwischen einzelnen Genen oder Genprodukten bzw. zwischen Genen und Proteinen vorhanden
 	\item darstellbar mittels Graphentheorie durch Knoten und Kanten sowie Kantengewichten bzw. -richtungen
 	\end{itemize}
-	\textbf{Vermutung:} aussagekräftige Knotenzentralitätsmaße für jeden Knoten verbessern die Schätzung bei einer netzwerkbasoierten penalisierten Regression weiter
+	\textbf{Forschungshypothese in der Masterarbeit:} Aussagekräftige Knotenzentralitätsmaße für jeden Knoten verbessern die Schätzung bei einer netzwerkbasoierten penalisierten Regression weiter
 \end{frame}
 
 
 \begin{frame}
-	\frametitle{Zentralitätsmaße in a nutshell}
+	\frametitle{Zentralitätsmaße {\glqq}in a nutshell{\grqq}}
 	\begin{align*}
 	\text{Adjazenzmatrix: } \mathbf{A}=\begin{pmatrix}
 	0 & 1 & 1 & 0 & 1 \\
@@ -245,31 +245,35 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 
 
 \begin{frame}
-	sei $D(u, v)$ die Distanz, d.h. der kürzeste Weg, zwischen zwei Knoten $u$ und $v$ 
+	\begin{itemize}
+	\item sei $D(u, v)$ die Distanz, d.h. der kürzeste Weg, zwischen zwei Knoten $u$ und $v$: 
 	\begin{align*}
 	\text{Closeness-Zentralität: } & C(u)=\frac{1}{\sum_{v \in V \setminus u} D(u, v)}
 	\end{align*}
-	sei $\varpi(v,w|u)$ die Summe an Distanzen zwischen $v$ und $w$, auf denen $u$ liegt, und sei $\varpi(v,w)$ die gesamte Anzahl an Distanzen zwischen $v$ und $w$
+	\item sei $\varpi(v,w|u)$ die Summe an Distanzen zwischen $v$ und $w$, auf denen $u$ liegt, und sei $\varpi(v,w)$ die gesamte Anzahl an Distanzen zwischen $v$ und $w$:
 	\begin{align*}
 		\text{Betweenness-Zentralität: } B(u)=\sum_{u \neq v \neq w \in V} \frac{\varpi(v,w|u)}{\varpi(v,w)}\\
 	\end{align*}
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
-sei $\mathbf{A}\mathbf{e}=\lambda_{max} \mathbf{e}$ ein Eigenwertproblem und $\lambda_{max}$ der größte Eigenwert mit zugehörigem Eigenvektor $\mathbf{e}=(e_1,\dots, e_{p})'$:
+\begin{itemize}
+\item sei $\mathbf{A}\mathbf{e}=\lambda_{max} \mathbf{e}$ ein Eigenwertproblem und $\lambda_{max}$ der größte Eigenwert mit zugehörigem Eigenvektor $\mathbf{e}=(e_1,\dots, e_{p})'$:
 	\begin{align*}
 	&\text{Eigenvektor-Zentralität: } & \lambda_{max} e_u &= \sum_{v \in V\setminus u} e_v a_{u,v} \notag \\
 	&&\Leftrightarrow e_u &=\frac{1}{\lambda_{max}} \sum_{v \in V\setminus u} e_v a_{u,v}
 	\end{align*}
-	Eigenvektor-Zentralität misst die Bedeutung eines Knotens daran, wie bedeutsam seine Nachbarn sind 
+	\item die Eigenvektor-Zentralität misst die Bedeutung eines Knotens daran, wie bedeutsam seine Nachbarn sind 
+\end{itemize}
 \end{frame}
 
 
 \begin{frame}
 \begin{figure}
 \centering
-\includegraphics[width=\linewidth]{../Text/hsa05212}
-%\caption{}
+\includegraphics[width=0.8\linewidth]{./hsa05212}
+\caption{KEGG-Pathway für Pankreas-Karzinome}
 \label{fig:hsa05212}
 \end{figure}
 \end{frame}
@@ -279,7 +283,7 @@ sei $\mathbf{A}\mathbf{e}=\lambda_{max} \mathbf{e}$ ein Eigenwertproblem und $\l
 \begin{figure}
 \centering
 \includegraphics[width=\linewidth]{./PancreasCancer}
-%\caption{}
+\caption{Graph für Pathway von Pankreas-Karzinome}
 \label{fig:pancreas}
 \end{figure}
 \end{frame}
@@ -288,7 +292,7 @@ sei $\mathbf{A}\mathbf{e}=\lambda_{max} \mathbf{e}$ ein Eigenwertproblem und $\l
 
 \begin{frame}
 	\begin{itemize}
-	\item ursprüngliche graphenbasierte Regression von \cite{li_network-constrained_2008} mit zu minimierendem Term:
+	\item ursprüngliche netzwerkbasierte Regression von \cite{li_network-constrained_2008} mit zu minimierendem Term:
 	\begin{align*}
 	\text{RSS}
 	+\gamma_1\sum_{j=1}^{p}|\beta_j|
@@ -305,7 +309,7 @@ sei $\mathbf{A}\mathbf{e}=\lambda_{max} \mathbf{e}$ ein Eigenwertproblem und $\l
 
 \begin{frame}
 	\begin{itemize}
-	\item Weiterentwicklung (i.F. $\text{NBPR}$) von \cite{kim_network-based_2013} mit {\glqq}idealem{\grqq} Strafterm:
+	\item Weiterentwicklung (im Folgenden $\text{NBPR}$) von \cite{kim_network-based_2013} mit {\glqq}idealem{\grqq} Strafterm:
 	\begin{align*}
 	\gamma_1 \sum_{j=1}^{p}I(|\beta_j|\neq 0) + \gamma_2 \sum_{\{u,v\}}\left| I\left( \frac{|\beta_u|}{c_u} \neq 0 \right) - I\left( \frac{|\beta_v|}{c_v} \neq 0 \right) \right|
 	\end{align*}
@@ -339,7 +343,7 @@ sei $\mathbf{A}\mathbf{e}=\lambda_{max} \mathbf{e}$ ein Eigenwertproblem und $\l
 	\frametitle{Simulationsdesign}
 	\begin{itemize}
 	\item $100$ Datensätze
-	\item auf Grundlage von KEGG-Datenbank Simulation realistischer Graphen:
+	\item Simulations realistischer Graphen auf Grundlage von KEGG-Datenbank:
 	\begin{figure}
 	\centering
 	\includegraphics[width=0.4\linewidth]{./Beispielgraph}
@@ -383,7 +387,7 @@ sei $\mathbf{A}\mathbf{e}=\lambda_{max} \mathbf{e}$ ein Eigenwertproblem und $\l
 	\item keine Gewichtung ($\text{NBPR}_{1}$)
 	\end{itemize}
 	\item Enet als Startschätzer für $t=1$
-	\item Wahl der Tuningparameter über kleinsten Vorhersagefehler für Kombination aus $4\cdot 4 \cdot 5 =80$ von $\gamma_1$, $\gamma_2$ und $\tau$:
+	\item Wahl der Tuningparameter über kleinsten Vorhersagefehler für Kombinationen aus $4\cdot 4 \cdot 5 =80$ von $\gamma_1$, $\gamma_2$ und $\tau$:
 	\begin{align*}
 	&\gamma_1/\tau \in \left[ \max(|\boldsymbol{\hat{\beta}}^{Enet}|), \max(|\boldsymbol{\hat{\beta}}^{Enet}|) \cdot \frac{p}{4} \right] \\
 	&\gamma_2/\tau \in \left[ N_E, \max(|\boldsymbol{\hat{\beta}}^{Enet}|) \cdot N_E \right]\\
@@ -416,7 +420,7 @@ sei $\mathbf{A}\mathbf{e}=\lambda_{max} \mathbf{e}$ ein Eigenwertproblem und $\l
 	\begin{itemize}
 	\item durchschnittliche falsch-positiv-Rate:
 	\begin{itemize}
-	\item Enet zweitkleinsten Wert ($5.2\%$)
+	\item Enet mit zweitkleinstem Wert ($5.2\%$)
 	\item NBPR-Versionen zwischen $4.8\%$ ($\text{NBPR}_{C}$) und $9.4\%$ ($\text{NBPR}_{\sqrt{d}}$)
 	\item im \textbf{Durchschnitt über alle Simulationen} geht eine Erhöhung der RP-Rate mit einer Erhöhung der FP-Rate einher; \textbf{ABER:} werden die Simulationen individuell betrachtet, gibt es keinen eindeutigen Richtungszusammenhang  
 	\end{itemize}
@@ -426,17 +430,17 @@ sei $\mathbf{A}\mathbf{e}=\lambda_{max} \mathbf{e}$ ein Eigenwertproblem und $\l
 
 \begin{frame}
 	\begin{itemize}
-	\item durchschnittlicher Modellfehler $(\boldsymbol{\hat{\beta}}- \boldsymbol{\beta})'\mathbb{C}\text{ov}(\mathbf{X})(\boldsymbol{\hat{\beta}}- \boldsymbol{\beta})$:
+	\item durchschnittliche Modellfehler $(\boldsymbol{\hat{\beta}}- \boldsymbol{\beta})'\mathbb{C}\text{ov}(\mathbf{X})(\boldsymbol{\hat{\beta}}- \boldsymbol{\beta})$:
 	\begin{itemize}
 	\item Enet: $155.56$
 	\item NBPR-Versionen: zwischen $182.71$ ($\text{NBPR}_{E,R}$) und $236.30$ ($\text{NBPR}_{\sqrt{d}}$)
 	\item NBPR-Versionen haben teilweise hohe Standardabweichungen durch potentielle Ausreißer
 	\end{itemize}
-	\item durchschnittlicher Vorhersagefehler $\frac{1}{n}(\mathbf{X}\boldsymbol{\hat{\beta}}- \mathbf{Y})'(\mathbf{X}\boldsymbol{\hat{\beta}}- \mathbf{Y})$:
+	\item durchschnittliche Vorhersagefehler $\frac{1}{n}(\mathbf{X}\boldsymbol{\hat{\beta}}- \mathbf{Y})'(\mathbf{X}\boldsymbol{\hat{\beta}}- \mathbf{Y})$:
 	\begin{itemize}
 	\item Enet: $238.2$
 	\item NBPR-Versionen deutlich höher: $886.66$ ($\text{NBPR}_{B,R}$) bis $1044.30$ ($\text{NBPR}_{\sqrt{d}}$)
-	\item einzelnen Vorhersagefehler von NBPR streuen breiter als von der Enet-Regression 
+	\item einzelne Vorhersagefehler von NBPR streuen breiter als bei der Enet-Regression 
 	\end{itemize}
 	\end{itemize}
 \end{frame}
@@ -447,8 +451,8 @@ sei $\mathbf{A}\mathbf{e}=\lambda_{max} \mathbf{e}$ ein Eigenwertproblem und $\l
 	\item durchschnittliche Genauigkeit der Schätzungen für $\boldsymbol{\beta} = 2$, $\boldsymbol{\beta} = 1$ bzw $\boldsymbol{\beta} = 0$
 	\begin{itemize}
 	\item alle Methoden unterschätzen $\boldsymbol{\beta}=2$, wobei Enet mit $1.740$ den schlechtesten und $\text{NBPR}_1$ mit $1.919$ den besten Wert liefert
-	\item für $\boldsymbol{\beta} = 1$ trifft Enet im Durchschnitt fast ($1.010$) den wahren Wert; die NBPR-Versionen liegen zwischen $1.239$ ($\text{NBPR}_{B,R}$) und $1.419$ ($\text{NBPR}_1$)  
-	\item für $\boldsymbol{\beta}\neq 0$ liefert die Enet in Fällen wo $\hat{\beta}_j \neq 0$ gesetzt wird mit $\approx0.5$ die besten Ergebnisse, alle NBPR-Versionen liegen bei $\approx 1$
+	\item für $\boldsymbol{\beta} = 1$ trifft Enet im Durchschnitt fast den wahren Wert ($1.010$); die NBPR-Versionen liegen zwischen $1.239$ ($\text{NBPR}_{B,R}$) und $1.419$ ($\text{NBPR}_1$)  
+	\item für $\boldsymbol{\beta}\neq 0$ liefert Enet in Fällen wo $\hat{\beta}_j \neq 0$ gesetzt wird mit $\approx0.5$ die besten Ergebnisse, alle NBPR-Versionen liegen bei $\approx 1$
 	\end{itemize}
 	\end{itemize}
 \end{frame}
@@ -467,29 +471,26 @@ Vielen Dank für die Aufmerksamkeit
 
 \section{Zusätzliches Material}
 \begin{frame}
-	Kovariablenauswahl Enet vs. $\text{NBPR}_{B,R}$ für $\boldsymbol{\beta}$
 	\begin{figure}
 	\centering
 	\includegraphics[width=\linewidth]{./BR_allBETA}
-	%\caption{}
+	\caption{Kovariablenauswahl Enet vs. $\text{NBPR}_{B,R}$ für $\boldsymbol{\beta}$}
 	\label{fig:a}
 	\end{figure}
 \end{frame}
 \begin{frame}
-	Kovariablenauswahl Enet vs. $\text{NBPR}_{B,R}$ für $\boldsymbol{\beta} \neq 0$
 	\begin{figure}
 	\centering
 	\includegraphics[width=\linewidth]{./BR_BETA_not0}
-	%\caption{}
+	\caption{Kovariablenauswahl Enet vs. $\text{NBPR}_{B,R}$ für $\boldsymbol{\beta} \neq 0$}
 	\label{fig:b}
 	\end{figure}
 \end{frame}
 \begin{frame}
-	Kovariablenauswahl Enet vs. $\text{NBPR}_{B,R}$ für $\boldsymbol{\beta} = 0$
 	\begin{figure}
 	\centering
 	\includegraphics[width=\linewidth]{./BR_BETA_0}
-	%\caption{}
+	\caption{Kovariablenauswahl Enet vs. $\text{NBPR}_{B,R}$ für $\boldsymbol{\beta} = 0$}
 	\label{fig:c}
 	\end{figure}
 \end{frame}
@@ -498,7 +499,7 @@ Vielen Dank für die Aufmerksamkeit
 	\frametitle{Verwendete Software (jeweils aktuelle Version zum Stand 17.12.2014)}
 	\begin{itemize}
 	\item \texttt{R}-Pakete: \texttt{igraph, corpcor, qpgraph, mvtnorm, CVXfromR, glmnet, parallel, KEGGgraph, NCBI2R}
-	\item \texttt{Matlab}-Toolboxen: \mathtt{cvx}
+	\item \texttt{Matlab}-Toolboxen: \texttt{cvx}
 	\end{itemize}
 \end{frame}
 
