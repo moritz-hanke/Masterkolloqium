@@ -29,6 +29,7 @@
 % and kill the abominable icon
 \setbeamertemplate{bibliography item}{}
 
+\setbeamertemplate{caption}[numbered]
 
 
 \setbeamercolor{normal text}{fg=black,bg=white}
@@ -105,13 +106,13 @@ Fachbereich 3: Mathematik, Universität Bremen\\
   \frametitle{Limitationen des OLS-Schätzers} 
   ABER: 
     \begin{itemize}
-    \pause \item für $n < p$ ist $\text{rang}(\mathbf{X}
+    \item für $n < p$ ist $\text{rang}(\mathbf{X}
     )<p+1$ und deswegen $\left(\mathbf{X}'\mathbf{X}\right)^{-1}$ nicht invertierbar
-    \pause \item liegt Multikollinearität vor, d.h. ist $R^2_j$ nahe $1$, ist die Varianz der einzelnen $\hat{\beta}_j^{OLS}$ bzw. der entsprechende MSE hoch und damit der Schätzer ungenau
-    \pause \item bei perfekter Multikollinearität ist $\mathbf{X}$ singulär und $\left(\mathbf{X}'\mathbf{X}\right)^{-1}$ nicht invertierbar
+    \item liegt Multikollinearität vor, d.h. ist $R^2_j$ nahe $1$, ist die Varianz der einzelnen $\hat{\beta}_j^{OLS}$ bzw. der entsprechende MSE hoch und damit der Schätzer ungenau
+    \item bei perfekter Multikollinearität ist $\mathbf{X}$ singulär und $\left(\mathbf{X}'\mathbf{X}\right)^{-1}$ nicht invertierbar
     \end{itemize}
     \begin{itemize}
-    \pause \item diese Probleme sind bei hochdimensionalen Daten, d.h. $p \gg n$, gegeben
+    \item diese Probleme sind bei hochdimensionalen Daten, d.h. $p \gg n$, gegeben
     \item $p \gg n$-Probleme kommen in verschiedenen Bereichen wie bei der Analyse von sozialen Netzwerken, Finanzmärkten und astronomischen Phänomenen sowie in der Genetik vor
     \end{itemize}
     
@@ -120,10 +121,10 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 \begin{frame}
 	IDEE:
 	\begin{itemize}
-	\pause \item Annahme, dass $\boldsymbol{\beta}$ spärlich besetzt ist, d.h. $\beta_j=0$ für die meisten Regressionskoeffizienten gilt
-	\pause \item Beispiel Genetik: Expressionslevelmessungen von mehreren tausend Genen für wenige hundert Probanden für ein Outcome; biologisch wirklich beteiligt sind aber nur wenige Gene
-	\pause \item die Unverzerrtheit des OLS-Schätzers {\glqq}opfern{\grqq} um eindeutige und stabile $\boldsymbol{\hat{\beta}}$ zu erhalten, die wie $\boldsymbol{\beta}$ spärlich besetzt sind und möglichst geringen MSE durch Varianzverminderung aufweisen
-	\pause \item zusätzlich zuvor bekannte Informationen wie den Zusammenhang zwischen den Kovariablen (Netzwerk) und deren jeweilige Bedeutung bei der Schätzung berücksichtigen
+	\item Annahme, dass $\boldsymbol{\beta}$ spärlich besetzt ist, d.h. $\beta_j=0$ für die meisten Regressionskoeffizienten gilt
+	\item Beispiel Genetik: Expressionslevelmessungen von mehreren tausend Genen für wenige hundert Probanden für ein Outcome; biologisch wirklich beteiligt sind aber nur wenige Gene
+	\item die Unverzerrtheit des OLS-Schätzers {\glqq}opfern{\grqq} um eindeutige und stabile $\boldsymbol{\hat{\beta}}$ zu erhalten, die wie $\boldsymbol{\beta}$ spärlich besetzt sind und möglichst geringen MSE durch Varianzverminderung aufweisen
+	\item zusätzlich zuvor bekannte Informationen wie den Zusammenhang zwischen den Kovariablen (Netzwerk) und deren jeweilige Bedeutung bei der Schätzung berücksichtigen
 	\end{itemize}
 \end{frame}
 
@@ -220,7 +221,7 @@ Fachbereich 3: Mathematik, Universität Bremen\\
 	\item  Beispiel Genetik: Informationen über Zusammenhänge zwischen einzelnen Genen oder Genprodukten bzw. zwischen Genen und Proteinen vorhanden
 	\item darstellbar mittels Graphentheorie durch Knoten und Kanten sowie Kantengewichten bzw. -richtungen
 	\end{itemize}
-	\textbf{Forschungshypothese in der Masterarbeit:} Aussagekräftige Knotenzentralitätsmaße für jeden Knoten verbessern die Schätzung bei einer netzwerkbasoierten penalisierten Regression weiter
+	\textbf{Forschungshypothese in der Masterarbeit:} Aussagekräftige Knotenzentralitätsmaße für jeden Knoten verbessern die Schätzung bei einer netzwerkbasierten penalisierten Regression weiter
 \end{frame}
 
 
@@ -470,6 +471,118 @@ Vielen Dank für die Aufmerksamkeit
 
 
 \section{Zusätzliches Material}
+
+\begin{frame}
+\begin{table}[h]
+\begin{tabular}{clclccccc}
+\multicolumn{1}{l}{}     &  & \multicolumn{1}{l}{} &  & \multicolumn{5}{c}{\textbf{RP-Rate}}                       \\ \cline{3-3} \cline{5-9} 
+\multicolumn{1}{l}{}     &  & $\pi$                &  & arith. Mittel & s       & Median & $Q_{0.25}$ & $Q_{0.75}$ \\ \cline{3-3} \cline{5-9} 
+$\text{Enet}$            &  & 1.0                  &  & $0.436$       & $0.146$ & $0.42$ & $0.34$     & $0.54$     \\
+$\text{NBPR}_{B,R}$      &  & 0.71                 &  & $0.465$       & $0.142$ & $0.46$ & $0.36$     & $0.58$     \\
+$\text{NBPR}_{C,R}$      &  & 0.74                 &  & $0.461$       & $0.132$ & $0.46$ & $0.365$    & $0.540$    \\
+$\text{NBPR}_{d,R}$      &  & 0.66                 &  & $0.458$       & $0.152$ & $0.44$ & $0.36$     & $0.555$    \\
+$\text{NBPR}_{E,R}$      &  & 0.64                 &  & $0.460$       & $0.124$ & $0.45$ & $0.38$     & $0.540$    \\
+$\text{NBPR}_{\sqrt{d}}$ &  & 0.42                 &  & $0.494$       & $0.195$ & $0.50$  & $0.37$     & $0.635$    \\
+$\text{NBPR}_{C}$        &  & 0.56                 &  & $0.440$       & $0.175$ & $0.44$ & $0.30$     & $0.550$     \\
+$\text{NBPR}_{1}$        &  & 0.38                 &  & $0.483$       & $0.164$ & $0.52$ & $0.365$    & $0.600$   
+\end{tabular}
+\caption{Anteil an Simulationen mit stabilen Schätzern ($\pi$) und richtig-positiv-Raten (RP-Rate)}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\begin{table}[h]
+\begin{tabular}{clccccc}
+\multicolumn{1}{l}{}     &  & \multicolumn{5}{c}{\textbf{FP-Rate}}                        \\ \cline{3-7} 
+\multicolumn{1}{l}{}     &  & arith. Mittel & s       & Median  & $Q_{0.25}$ & $Q_{0.75}$ \\ \cline{3-7} 
+$\text{Enet}$            &  & $0.052$       & $0.035$ & $0.042$ & $0.027$    & $0.070$    \\
+$\text{NBPR}_{B,R}$      &  & $0.059$       & $0.043$ & $0.048$ & $0.036$    & $0.074$    \\
+$\text{NBPR}_{C,R}$      &  & $0.066$       & $0.076$ & $0.047$ & $0.033$    & $0.076$    \\
+$\text{NBPR}_{d,R}$      &  & $0.073$       & $0.107$ & $0.048$ & $0.03$     & $0.074$    \\
+$\text{NBPR}_{E,R}$      &  & $0.056$       & $0.043$ & $0.045$ & $0.032$    & $0.074$    \\
+$\text{NBPR}_{\sqrt{d}}$ &  & $0.094$       & $0.150$ & $0.073$ & $0.033$    & $0.098$    \\
+$\text{NBPR}_{C}$        &  & $0.048$       & $0.047$ & $0.032$ & $0.024$    & $0.057$    \\
+$\text{NBPR}_{1}$        &  & $0.067$       & $0.041$ & $0.067$ & $0.030$    & $0.091$   
+\end{tabular}
+\caption{Falsch-positiv-Raten (FP-Rate)}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\begin{table}[h]
+\begin{tabular}{clccccc}
+\multicolumn{1}{l}{}     &  & \multicolumn{5}{c}{\textbf{ME}}                               \\ \cline{3-7} 
+\multicolumn{1}{l}{}     &  & arith. Mittel & s        & Median   & $Q_{0.25}$ & $Q_{0.75}$ \\ \cline{3-7} 
+$\text{Enet}$            &  & $155.56$      & $44.75$  & $147.12$ & $123.05$   & $187.00$   \\
+$\text{NBPR}_{B,R}$      &  & $195.78$      & $85.44$  & $175.46$ & $146.72$   & $215.07$   \\
+$\text{NBPR}_{C,R}$      &  & $201.27$      & $101.75$ & $173.65$ & $148.63$   & $225.51$   \\
+$\text{NBPR}_{d,R}$      &  & $207.43$      & $138.74$ & $168.54$ & $148.66$   & $211.22$   \\
+$\text{NBPR}_{E,R}$      &  & $182.71$      & $73.85$  & $164.84$ & $149.39$   & $205.18$   \\
+$\text{NBPR}_{\sqrt{d}}$ &  & $236.30$      & $177.07$ & $209.66$ & $161.71$   & $241.56$   \\
+$\text{NBPR}_{C}$        &  & $194.03$      & $73.82$  & $172.53$ & $153.8$    & $221.25$   \\
+$\text{NBPR}_{1}$        &  & $204.95$      & $83.60$  & $197.76$ & $156.98$   & $223.98$  
+\end{tabular}
+\caption{Modellfehler (ME)}
+\end{table}
+\end{frame}
+
+
+\begin{frame}
+\begin{table}[h]
+\begin{tabular}{clccccc}
+\multicolumn{1}{l}{}     &  & \multicolumn{5}{c}{\textbf{PE}}                                \\ \cline{3-7} 
+\multicolumn{1}{l}{}     &  & arith. Mittel & s        & Median    & $Q_{0.25}$ & $Q_{0.75}$ \\ \cline{3-7} 
+$\text{Enet}$            &  & $238.20$      & $52.92$  & $230.0$   & $198.10$   & $272.42$   \\
+$\text{NBPR}_{B,R}$      &  & $1044.30$     & $285.73$ & $1024.21$ & $868.64$   & $1212.90$  \\
+$\text{NBPR}_{C,R}$      &  & $973.02$      & $307.96$ & $954.30$  & $847.13$   & $1148.3$   \\
+$\text{NBPR}_{d,R}$      &  & $972.36$      & $300.24$ & $971.32$  & $809.30$   & $1090.82$  \\
+$\text{NBPR}_{E,R}$      &  & $1042.27$     & $247.08$ & $1021.01$ & $843.46$   & $1202.14$  \\
+$\text{NBPR}_{\sqrt{d}}$ &  & $886.66$      & $280.03$ & $917.39$  & $749.35$   & $1053.00$  \\
+$\text{NBPR}_{C}$        &  & $998.38$      & $253.03$ & $1021.23$ & $826.73$   & $1205.05$  \\
+$\text{NBPR}_{1}$        &  & $1004.30$     & $267.51$ & $1017.60$ & $818.13$   & $1148.13$ 
+\end{tabular}
+\caption{Vorhersagefehler (PE)}
+\end{table}
+\end{frame}
+
+
+\begin{frame}
+\begin{table}[h]
+\begin{tabular}{ccclcc}
+\multicolumn{1}{l}{}     & \multicolumn{2}{c}{$\boldsymbol{\beta}=2$} &  & \multicolumn{2}{c}{$\boldsymbol{\beta}=1$} \\ \cline{2-3} \cline{5-6} 
+\multicolumn{1}{l}{}     & arith. Mittel           & SE               &  & arith. Mittel           & SE               \\ \cline{2-3} \cline{5-6} 
+$\text{Enet}$            & $1.740$                 & $0.054$          &  & $1.010$                 & $0.044$          \\
+$\text{NBPR}_{B,R}$      & $1.889$                 & $0.070$          &  & $1.239$                 & $0.082$          \\
+$\text{NBPR}_{C,R}$      & $1.876$                 & $0.087$          &  & $1.250$                 & $0.080$          \\
+$\text{NBPR}_{d,R}$      & $1.823$                 & $0.080$          &  & $1.360$                 & $0.095$          \\
+$\text{NBPR}_{E,R}$      & $1.862$                 & $0.074$          &  & $1.313$                 & $0.102$          \\
+$\text{NBPR}_{\sqrt{d}}$ & $1.714$                 & $0.182$          &  & $1.175$                 & $0.211$          \\
+$\text{NBPR}_{C}$        & $2.127$                 & $0.119$          &  & $1.418$                 & $0.111$          \\
+$\text{NBPR}_{1}$        & $1.919$                 & $0.212$          &  & $1.419$                 & $0.192$         
+\end{tabular}
+\caption{Genauigkeit der Schätzungen für $\boldsymbol{\beta}=2$ bzw. $\boldsymbol{\beta}=1$}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\begin{table}[h]
+\begin{tabular}{ccc}
+\multicolumn{1}{l}{}     & \multicolumn{2}{c}{$\boldsymbol{\beta}=0$} \\ \cline{2-3} 
+\multicolumn{1}{l}{}     & arith. Mittel           & SE               \\ \cline{2-3} 
+$\text{Enet}$            & $0.553$                 & $0.023$          \\
+$\text{NBPR}_{B,R}$      & $0.914$                 & $0.064$          \\
+$\text{NBPR}_{C,R}$      & $0.873$                 & $0.055$          \\
+$\text{NBPR}_{d,R}$      & $0.856$                 & $0.049$          \\
+$\text{NBPR}_{E,R}$      & $0.870$                 & $0.056$          \\
+$\text{NBPR}_{\sqrt{d}}$ & $1.033$                 & $0.170$          \\
+$\text{NBPR}_{C}$        & $1.161$                 & $0.117$          \\
+$\text{NBPR}_{1}$        & $0.942$                 & $0.142$         
+\end{tabular}
+\caption{Genauigkeit der Schätzungen für $\boldsymbol{\beta}=0$}
+\end{table}
+\end{frame}
+
+
 \begin{frame}
 	\begin{figure}
 	\centering
